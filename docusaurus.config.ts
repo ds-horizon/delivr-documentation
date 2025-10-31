@@ -15,14 +15,14 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://delivr-documentation.example.com',
+  url: 'https://ds-horizon.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/delivr-documentation/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'delivr', // Usually your GitHub org/user name.
+  organizationName: 'ds-horizon', // Usually your GitHub org/user name.
   projectName: 'delivr-documentation', // Usually your repo name.
 
   onBrokenLinks: 'warn',
