@@ -55,10 +55,21 @@ The following settings in `docusaurus.config.ts` are configured for GitHub Pages
 
 ```typescript
 url: 'https://ds-horizon.github.io',
-baseUrl: '/delivr-documentation/',
+baseUrl: '/',  // Root path
 organizationName: 'ds-horizon',
 projectName: 'delivr-documentation',
 ```
+
+:::info Base URL
+The `baseUrl` is set to `/` which works for:
+- Custom domains (e.g., `docs.delivr.com`)
+- Organization/user pages (e.g., `ds-horizon.github.io`)
+
+If deploying to a project page (e.g., `ds-horizon.github.io/delivr-documentation/`), change to:
+```typescript
+baseUrl: '/delivr-documentation/',
+```
+:::
 
 ### Custom Domain (Optional)
 
@@ -120,10 +131,13 @@ Or use the alternative workflow in `.github/workflows/deploy.yml.backup`
 
 ### View Live Site
 
-After successful deployment:
-- **Production URL**: https://ds-horizon.github.io/delivr-documentation/
-- **Main page**: Homepage with product overview
-- **DOTA docs**: https://ds-horizon.github.io/delivr-documentation/dota/intro
+After successful deployment, your site will be available at the URL configured in your GitHub Pages settings:
+- **Homepage**: Product overview and navigation
+- **DOTA Landing**: `/dota`
+- **DOTA Docs**: `/dota/intro`
+- **Build**: `/build`
+- **Release**: `/release`
+- **Testing**: `/testing`
 
 ---
 
