@@ -1,11 +1,11 @@
-/* Coming Soon Pages - Futuristic Black Theme */
+/* Coming Soon Pages - Clean White Theme */
 .comingSoonContainer {
   min-height: calc(100vh - 60px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4rem 2rem;
-  background: #000000;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
   position: relative;
   overflow: hidden;
 }
@@ -17,7 +17,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.03) 0%, transparent 70%);
   animation: pulse 6s ease-in-out infinite;
 }
 
@@ -49,7 +49,7 @@
   font-size: 10rem;
   display: inline-block;
   animation: float 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 40px var(--primary-glow));
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
   position: relative;
 }
 
@@ -61,7 +61,7 @@
   transform: translate(-50%, -50%);
   width: 150%;
   height: 150%;
-  background: radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, transparent 70%);
   border-radius: 50%;
   animation: iconPulse 2s ease-in-out infinite;
 }
@@ -90,7 +90,7 @@
   font-size: 4.5rem;
   font-weight: 900;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, var(--primary-glow) 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -101,7 +101,7 @@
 .subtitle {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--primary-glow);
+  color: #4f46e5;
   margin-bottom: 2rem;
   text-transform: uppercase;
   letter-spacing: 4px;
@@ -116,7 +116,7 @@
   top: 50%;
   width: 100px;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--primary-glow) 100%);
+  background: linear-gradient(90deg, transparent 0%, #4f46e5 100%);
 }
 
 .subtitle::before {
@@ -125,12 +125,12 @@
 
 .subtitle::after {
   left: calc(100% + 20px);
-  background: linear-gradient(90deg, var(--primary-glow) 0%, transparent 100%);
+  background: linear-gradient(90deg, #4f46e5 0%, transparent 100%);
 }
 
 .description {
   font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: #64748b;
   line-height: 1.8;
   margin-bottom: 4rem;
   max-width: 700px;
@@ -142,10 +142,11 @@
 .timeline {
   margin: 4rem 0;
   padding: 3rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: #ffffff;
   border-radius: 20px;
-  border: 1px solid rgba(0, 212, 255, 0.2);
+  border: 1px solid #e2e8f0;
   position: relative;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .timeline::before {
@@ -155,13 +156,13 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent 0%, var(--primary-glow) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #4f46e5 50%, transparent 100%);
 }
 
 .timelineTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary-glow);
+  color: #4f46e5;
   margin-bottom: 2.5rem;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -180,21 +181,21 @@
   flex: 1;
   min-width: 200px;
   padding: 1.5rem;
-  background: rgba(0, 212, 255, 0.05);
+  background: #f8fafc;
   border-radius: 12px;
-  border: 1px solid rgba(0, 212, 255, 0.3);
+  border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
 }
 
 .phase:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
-  border-color: var(--primary-glow);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: #4f46e5;
 }
 
 .phaseLabel {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
@@ -203,13 +204,13 @@
 .phaseName {
   font-size: 1.25rem;
   font-weight: 700;
-  color: white;
+  color: #0f172a;
   margin-bottom: 0.5rem;
 }
 
 .phaseDate {
   font-size: 1rem;
-  color: var(--primary-glow);
+  color: #4f46e5;
   font-weight: 600;
 }
 
@@ -230,14 +231,15 @@
   justify-content: center;
   gap: 1rem;
   padding: 2rem 1.5rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 2px solid rgba(0, 212, 255, 0.2);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   font-weight: 700;
-  color: white;
-  transition: all 0.4s ease;
+  color: #0f172a;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .feature::before {
@@ -247,7 +249,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.2) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(79, 70, 229, 0.08) 50%, transparent 100%);
   transition: left 0.6s ease;
 }
 
@@ -257,29 +259,29 @@
 
 .feature:hover {
   transform: translateY(-6px);
-  border-color: var(--primary-glow);
-  box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
-  background: rgba(0, 212, 255, 0.05);
+  border-color: #4f46e5;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .featureIcon {
   font-size: 2rem;
-  filter: drop-shadow(0 0 10px var(--primary-glow));
+  filter: grayscale(0);
 }
 
 /* Notify Section */
 .notifySection {
   margin: 4rem 0;
   padding: 3rem;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
   border-radius: 20px;
-  border: 2px solid rgba(124, 58, 237, 0.3);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .notifyTitle {
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--accent-purple);
+  color: #4f46e5;
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -287,7 +289,7 @@
 
 .notifyDescription {
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: #64748b;
   margin-bottom: 2rem;
   line-height: 1.6;
 }
@@ -305,27 +307,27 @@
   flex: 1;
   min-width: 250px;
   padding: 1rem 1.5rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(124, 58, 237, 0.5);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
-  color: white;
+  color: #0f172a;
   font-size: 1rem;
   transition: all 0.3s ease;
 }
 
 .emailInput:focus {
   outline: none;
-  border-color: var(--accent-purple);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .emailInput::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: #94a3b8;
 }
 
 .notifyButton {
   padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--accent-purple) 0%, var(--secondary-glow) 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
   border: none;
   border-radius: 8px;
   color: white;
@@ -339,7 +341,7 @@
 
 .notifyButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.6);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* Actions */
@@ -357,26 +359,25 @@
 }
 
 .actions a.button--primary {
-  background: linear-gradient(135deg, var(--primary-glow) 0%, var(--secondary-glow) 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
   border: none;
-  color: #000;
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+  color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .actions a.button--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 50px rgba(0, 212, 255, 0.7);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .actions a.button--secondary {
   background: transparent;
-  border: 2px solid var(--primary-glow);
-  color: var(--primary-glow);
+  border: 2px solid #4f46e5;
+  color: #4f46e5;
 }
 
 .actions a.button--secondary:hover {
-  background: rgba(0, 212, 255, 0.1);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  background: rgba(79, 70, 229, 0.08);
   transform: translateY(-2px);
 }
 
@@ -387,7 +388,7 @@
 
 .progressLabel {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: #64748b;
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -396,7 +397,7 @@
 .progressBar {
   width: 100%;
   height: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: #e2e8f0;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
@@ -404,7 +405,7 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-glow) 0%, var(--accent-purple) 100%);
+  background: linear-gradient(90deg, #4f46e5 0%, #3b82f6 100%);
   border-radius: 10px;
   position: relative;
   animation: shimmer 2s ease-in-out infinite;
@@ -412,20 +413,20 @@
 
 @keyframes shimmer {
   0% {
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
   }
   50% {
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
   }
   100% {
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
   }
 }
 
 .progressPercentage {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary-glow);
+  color: #4f46e5;
   margin-top: 1rem;
 }
 
