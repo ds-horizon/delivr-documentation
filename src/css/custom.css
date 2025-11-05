@@ -101,10 +101,7 @@
 .navbar__title {
   font-weight: 700;
   font-size: 1.375rem;
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #000000;
   letter-spacing: -0.5px;
 }
 
@@ -268,6 +265,22 @@ tr:hover {
 .button--secondary:hover {
   background: rgba(79, 70, 229, 0.08);
   color: var(--primary-blue);
+}
+
+/* Override for hero sections with blue backgrounds */
+[class*="hero"] .button--secondary,
+[class*="heroBanner"] .button--secondary {
+  background: transparent !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+[class*="hero"] .button--secondary:hover,
+[class*="heroBanner"] .button--secondary:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
 }
 
 /* Pagination */

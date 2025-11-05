@@ -13,6 +13,30 @@
   overflow: hidden;
 }
 
+.hero a.button--secondary,
+.hero .button.button--secondary,
+.hero a[href*="github"].button--secondary {
+  background: transparent !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.hero a.button--secondary:hover,
+.hero .button.button--secondary:hover,
+.hero a[href*="github"].button--secondary:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.hero a.button--secondary:active,
+.hero a.button--secondary:visited,
+.hero a.button--secondary:focus {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
 .hero::before {
   content: '';
   position: absolute;
@@ -93,17 +117,21 @@
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-.heroButtons .button--secondary {
-  background: transparent;
-  color: #ffffff;
-  border: 2px solid #ffffff;
+.heroButtons a.button--secondary,
+.heroButtons .button.button--secondary {
+  background: transparent !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  border-color: #ffffff !important;
   font-weight: 600;
 }
 
-.heroButtons .button--secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border-color: #ffffff;
+.heroButtons a.button--secondary:hover,
+.heroButtons .button.button--secondary:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  border-color: #ffffff !important;
   transform: translateY(-2px);
 }
 

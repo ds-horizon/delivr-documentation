@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Delivr',
   tagline: 'Ship Mobile Apps with Confidence',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/delivr-favicon.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -60,13 +60,15 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: 'light',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
     },
     navbar: {
       title: 'Delivr',
       logo: {
         alt: 'Delivr Logo',
-        src: 'img/logo.svg',
+        src: 'img/delivr-logo.png',
       },
       items: [
         {

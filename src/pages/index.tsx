@@ -19,11 +19,6 @@ function HomepageHeader() {
             </div>
             
             <h1 className={styles.heroTitle}>
-              <svg className={styles.heroIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2"/>
-                <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
               Delivr
             </h1>
             
@@ -172,21 +167,10 @@ export default function Home(): React.JSX.Element {
                   </svg>
                 </div>
                 <h3 className={styles.challengeCardTitle}>Fragmented Toolchain</h3>
-                <p className={styles.challengeCardDesc}>
-                  Juggling multiple disconnected systems for CI/CD, builds, and releases requires constant context switching and manual coordination.
-                </p>
-              </div>
-
-              <div className={styles.challengeCard}>
-                <div className={styles.challengeCardIcon}>
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <h3 className={styles.challengeCardTitle}>Infrastructure Burden</h3>
-                <p className={styles.challengeCardDesc}>
-                  Managing build servers, YAML configs, and pipelines drains 30-40% of engineering bandwidth that could be spent on features.
-                </p>
+                <ul className={styles.challengeCardList}>
+                  <li>Juggling multiple disconnected systems for CI/CD, builds, and releases</li>
+                  <li>Constant context switching and manual coordination</li>
+                </ul>
               </div>
 
               <div className={styles.challengeCard}>
@@ -196,9 +180,10 @@ export default function Home(): React.JSX.Element {
                   </svg>
                 </div>
                 <h3 className={styles.challengeCardTitle}>Lack of Visibility</h3>
-                <p className={styles.challengeCardDesc}>
-                  Without unified insights into release health and build performance, teams can't identify bottlenecks or measure rollout success.
-                </p>
+                <ul className={styles.challengeCardList}>
+                  <li>No unified insights into release health and build performance</li>
+                  <li>Can't identify bottlenecks or measure rollout success</li>
+                </ul>
               </div>
 
               <div className={styles.challengeCard}>
@@ -208,9 +193,10 @@ export default function Home(): React.JSX.Element {
                   </svg>
                 </div>
                 <h3 className={styles.challengeCardTitle}>Slow & Risky Releases</h3>
-                <p className={styles.challengeCardDesc}>
-                  Manual validations, limited automation, and weak rollback mechanisms lead to delayed rollouts and higher failure risk.
-                </p>
+                <ul className={styles.challengeCardList}>
+                  <li>Manual validations and limited automation</li>
+                  <li>Weak rollback mechanisms lead to delayed rollouts and higher failure risk</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -235,7 +221,12 @@ export default function Home(): React.JSX.Element {
                   </div>
                 </div>
                 <h3 className={styles.productTitle}>DOTA</h3>
-                <p className={styles.productDescription}>Over-the-air updates for instant JS bundle deployments. Push fixes and features without app store delays. Manage deployment keys, differential updates, and mandatory patches.</p>
+                <ul className={styles.productFeatureList}>
+                  <li>Instant JS bundle deployments over-the-air</li>
+                  <li>Push fixes without app store delays</li>
+                  <li>Deployment keys & differential updates</li>
+                  <li>Mandatory patches & staged rollouts</li>
+                </ul>
                 <div className={styles.productLink}>
                   Learn more →
                 </div>
@@ -248,10 +239,15 @@ export default function Home(): React.JSX.Element {
                       <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </div>
-                  <span className={styles.comingSoonBadge}>Coming Soon</span>
                 </div>
                 <h3 className={styles.productTitle}>Build</h3>
-                <p className={styles.productDescription}>End-to-end build lifecycle management with Git integration, YAML configs, real-time logs, and artifact generation for APK, IPA, AAB, and JS bundles across all variants.</p>
+                <ul className={styles.productFeatureList}>
+                  <li>Git integration & YAML configs</li>
+                  <li>Real-time build logs & monitoring</li>
+                  <li>APK, IPA, AAB, JS bundle generation</li>
+                  <li>Multi-variant support across platforms</li>
+                </ul>
+                <div className={styles.comingSoonLink}>Coming Soon</div>
               </div>
 
               <div className={styles.productCard}>
@@ -261,10 +257,15 @@ export default function Home(): React.JSX.Element {
                       <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </div>
-                  <span className={styles.comingSoonBadge}>Coming Soon</span>
                 </div>
                 <h3 className={styles.productTitle}>Release</h3>
-                <p className={styles.productDescription}>Intelligent distribution with secure links, QR codes, App Store/Play Store integration, graded rollouts, and automated notifications via Slack and Teams.</p>
+                <ul className={styles.productFeatureList}>
+                  <li>Secure links & QR code distribution</li>
+                  <li>App Store & Play Store integration</li>
+                  <li>Graded rollouts & phased releases</li>
+                  <li>Slack & Teams notifications</li>
+                </ul>
+                <div className={styles.comingSoonLink}>Coming Soon</div>
               </div>
 
               <div className={styles.productCard}>
@@ -274,10 +275,15 @@ export default function Home(): React.JSX.Element {
                       <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </div>
-                  <span className={styles.comingSoonBadge}>Coming Soon</span>
                 </div>
                 <h3 className={styles.productTitle}>Testing</h3>
-                <p className={styles.productDescription}>Cloud-based real-device testing, automated simulator provisioning, visual regression checks, and comprehensive quality assurance workflows.</p>
+                <ul className={styles.productFeatureList}>
+                  <li>Cloud-based real-device testing</li>
+                  <li>Automated simulator provisioning</li>
+                  <li>Visual regression checks</li>
+                  <li>Comprehensive QA workflows</li>
+                </ul>
+                <div className={styles.comingSoonLink}>Coming Soon</div>
               </div>
             </div>
           </div>
