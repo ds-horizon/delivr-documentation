@@ -35,7 +35,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
+  background:
     radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
   z-index: 0;
@@ -224,7 +224,7 @@
 .featureCard:hover {
   transform: translateY(-8px) scale(1.03);
   border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
@@ -787,7 +787,7 @@ section {
 
 .benefitsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   max-width: 1300px;
   margin: 0 auto;

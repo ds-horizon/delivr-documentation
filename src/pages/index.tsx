@@ -17,21 +17,21 @@ function HomepageHeader() {
               <span className={styles.badgeSeparator}>•</span>
               <span className={styles.badgeText}>Battle-Tested at Dream11</span>
             </div>
-            
+
             <h1 className={styles.heroTitle}>
               Delivr
             </h1>
-            
+
             <p className={styles.heroSubtitle}>
               Mobile DevOps Platform for Modern Teams
             </p>
-            
+
             <p className={styles.heroDescription}>
-              An open-source platform designed to simplify how teams build, release, and update mobile applications. 
-              Bring together Release Management, Over-the-Air updates, and Build Orchestration into one cohesive system. 
+              An open-source platform designed to simplify how teams build, release, and update mobile applications.
+              Bring together Release Management, Over-the-Air updates, and Build Orchestration into one cohesive system.
               Make mobile delivery <strong>faster</strong>, <strong>safer</strong>, and <strong>more consistent</strong>.
             </p>
-            
+
             <div className={styles.heroButtons}>
               <Link
                 className={clsx("button button--lg", styles.primaryButton)}
@@ -61,7 +61,7 @@ function HomepageHeader() {
               <div className={styles.featureContent}>
                 <h3 className={styles.featureTitle}>Release Management</h3>
                 <p className={styles.featureDescription}>
-                  Coordinate store and OTA rollouts with approvals, release trains, and guardrails
+                  Manage store and OTA rollouts with approvals, release trains, and guardrails
                 </p>
               </div>
             </div>
@@ -151,13 +151,13 @@ export default function Home(): React.JSX.Element {
           <div className="container">
             <div className={styles.challengeHeader}>
               <h2 className={styles.challengeTitle}>
-                The Mobile Release Challenge
+                Challenges in Mobile App Distribution
               </h2>
               <p className={styles.challengeSubtitle}>
                 Modern mobile app delivery is operationally heavy and creates critical bottlenecks
               </p>
             </div>
-            
+
             <div className={styles.challengeGrid}>
               <div className={styles.challengeCard}>
                 <div className={styles.challengeCardIcon}>
@@ -293,7 +293,7 @@ export default function Home(): React.JSX.Element {
         <section className={styles.audienceSection}>
           <div className="container">
             <div className={styles.sectionHeader}>
-              <h2 className={styles.sectionTitle}>Built for Modern Mobile Teams</h2>
+              <h2 className={styles.sectionTitle}>Built for Mobile Teams</h2>
             </div>
             <div className={styles.audienceGrid}>
               <div className={styles.audienceCard}>
@@ -337,15 +337,6 @@ export default function Home(): React.JSX.Element {
               <div className={styles.benefitCard}>
                 <div className={styles.benefitIconWrapper}>
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <h3 className={styles.benefitTitle}>Eliminate Operational Overhead</h3>
-                <p className={styles.benefitDescription}>Reclaim 30-40% of engineering time currently spent on release management and infrastructure maintenance.</p>
-              </div>
-              <div className={styles.benefitCard}>
-                <div className={styles.benefitIconWrapper}>
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
@@ -378,15 +369,6 @@ export default function Home(): React.JSX.Element {
                 </div>
                 <h3 className={styles.benefitTitle}>Unified Visibility</h3>
                 <p className={styles.benefitDescription}>Real-time dashboards for release health, build performance, crash rates, and adoption metrics in one place.</p>
-              </div>
-              <div className={styles.benefitCard}>
-                <div className={styles.benefitIconWrapper}>
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <h3 className={styles.benefitTitle}>No DevOps Required</h3>
-                <p className={styles.benefitDescription}>Releases become a natural extension of development, not an operational project requiring specialized teams.</p>
               </div>
             </div>
           </div>
