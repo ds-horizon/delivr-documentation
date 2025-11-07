@@ -41,7 +41,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Server (Backend)',
+      label: 'Server',
       collapsed: false,
       items: [
         'server/overview',
@@ -50,7 +50,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Web Panel (Dashboard)',
+      label: 'Web Panel',
       collapsed: false,
       items: [
         'web-panel/overview',

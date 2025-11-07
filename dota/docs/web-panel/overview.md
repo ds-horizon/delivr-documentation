@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Web Panel - Overview
+# Overview
 
 A modern web interface for the DOTA platform, enabling seamless application deployment and release management.
 

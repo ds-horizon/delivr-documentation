@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# DOTA Server - Overview
+# Overview
 
 DOTA (Delivr Over-The-Air) is a self-hostable backend service for deploying OTA updates to React Native applications.
 
