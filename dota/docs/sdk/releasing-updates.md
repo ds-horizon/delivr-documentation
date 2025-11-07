@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 5
 ---
 
 # Releasing Updates
@@ -14,7 +14,7 @@ Before releasing updates:
 2. ✅ Deployment keys must be configured in your app code
 3. ✅ You must have generated the JavaScript bundle and assets
 
-See [Bundle Generation](/sdk/bundle-generation) for creating bundles.
+See [Bundle Generation](/dota/sdk/bundle-generation) for creating bundles.
 
 ## Release Methods
 

@@ -1,0 +1,916 @@
+---
+sidebar_position: 3
+---
+
+# Release Management
+
+The `release` command is the primary way to deploy OTA updates to your React Native applications. This guide covers everything you need to know about releasing updates.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Release Types
+
+There are two ways to ship updates. Choose based on the size of your changes and your rollout needs:
+
+### 1. Full Bundle
+Ships the entire JavaScript bundle (and assets).
+
+- Best for large changes, first release, or when the base version changed
+- Most robust: does not require a previous bundle on device
+- Larger download size than a patch
+
+### 2. Patch Bundle
+Ships only the differences from a known base bundle.
+
+- Best for small/medium updates where you want minimal download size and faster installs
+- Requires that users already have the referenced base bundle version
+- Must be released with `--isPatch true` and assets for correctness
+
+## Basic Release Command
+
+<Tabs groupId="pm-release">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone release <appName> <updateContents> <targetBinaryVersion> [options]
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- release <appName> <updateContents> <targetBinaryVersion> [options]
+```
+
+  </TabItem>
+</Tabs>
+
+### Required Parameters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `appName` | Name of your app | `MyApp-iOS`, `MyApp-Android` |
+| `updateContents` | Path to bundle/assets | `./codepush`, `./dist/bundle` |
+| `targetBinaryVersion` | App store version | `1.0.0`, `^1.0.0`, `*` |
+
+### Optional Parameters
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `--deploymentName`, `-d` | Target deployment | `Staging` |
+| `--description`, `-des` | Release notes | - |
+| `--disabled` | Prevent download | `false` |
+| `--mandatory` | Force update | `false` |
+| `--noDuplicateReleaseError` | Warn instead of error for duplicates | `false` |
+| `--rollout` | Percentage of users (1-100) | `100` |
+| `--isPatch`, `-p` | Whether this is a patch | `false` |
+| `--compression`, `-c` | Algorithm: `deflate` or `brotli` | `deflate` |
+
+## Full Bundle Releases
+
+### Basic Example
+
+<Tabs groupId="pm-rel-basic">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone release MyApp-iOS ./codepush 1.0.0
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- release MyApp-iOS ./codepush 1.0.0
+```
+
+  </TabItem>
+</Tabs>
+
+This will:
+- Deploy to **Staging** (default)
+- Target app version **1.0.0** exactly
+- Use **deflate** compression
+- Release to **100%** of users
+
+### Production Release
+
+<Tabs groupId="pm-rel-prod">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone release MyApp-iOS ./codepush 1.0.0 \
+  --deploymentName Production \
+  --description "New features and fixes" \
+  --mandatory
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- release MyApp-iOS ./codepush 1.0.0 \
+  --deploymentName Production \
+  --description "New features and fixes" \
+  --mandatory
+```
+
+  </TabItem>
+</Tabs>
+
+### Release with Version Range
+
+Use semver to target multiple versions:
+
+<Tabs groupId="pm-rel-range-all">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# Compatible with all 1.x.x versions
+yarn code-push-standalone release MyApp-iOS ./codepush "^1.0.0" \
+  --deploymentName Production
+
+# Compatible with specific range
+yarn code-push-standalone release MyApp-iOS ./codepush ">=1.0.0 <2.0.0" \
+  --deploymentName Production
+
+# All versions
+yarn code-push-standalone release MyApp-iOS ./codepush "*" \
+  --deploymentName Production
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# Compatible with all 1.x.x versions
+npm run code-push-standalone -- release MyApp-iOS ./codepush "^1.0.0" \
+  --deploymentName Production
+
+# Compatible with specific range
+npm run code-push-standalone -- release MyApp-iOS ./codepush ">=1.0.0 <2.0.0" \
+  --deploymentName Production
+
+# All versions
+npm run code-push-standalone -- release MyApp-iOS ./codepush "*" \
+  --deploymentName Production
+```
+
+  </TabItem>
+</Tabs>
+
+### Gradual Rollout
+
+Release to a percentage of users:
+
+<Tabs groupId="pm-rel-rollout-25">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# Start with 25% of users
+yarn code-push-standalone release MyApp-iOS ./codepush 1.0.0 \
+  --deploymentName Production \
+  --rollout 25 \
+  --description "New feature rollout"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# Start with 25% of users
+npm run code-push-standalone -- release MyApp-iOS ./codepush 1.0.0 \
+  --deploymentName Production \
+  --rollout 25 \
+  --description "New feature rollout"
+```
+
+  </TabItem>
+</Tabs>
+
+Then increase the rollout:
+
+<Tabs groupId="pm-rel-rollout-increase">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# Later, increase to 50%
+yarn code-push-standalone patch MyApp-iOS Production \
+  --rollout 50
+
+# Finally, 100%
+yarn code-push-standalone patch MyApp-iOS Production \
+  --rollout 100
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# Later, increase to 50%
+npm run code-push-standalone -- patch MyApp-iOS Production \
+  --rollout 50
+
+# Finally, 100%
+npm run code-push-standalone -- patch MyApp-iOS Production \
+  --rollout 100
+```
+
+  </TabItem>
+</Tabs>
+
+### Using Brotli Compression
+
+Brotli provides better compression than deflate:
+
+<Tabs groupId="pm-rel-brotli">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone release MyApp-iOS ./dist/bundle "^1.0.0" \
+  --deploymentName Production \
+  --compression brotli \
+  --description "Compressed with Brotli for faster downloads"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- release MyApp-iOS ./dist/bundle "^1.0.0" \
+  --deploymentName Production \
+  --compression brotli \
+  --description "Compressed with Brotli for faster downloads"
+```
+
+  </TabItem>
+</Tabs>
+
+**Compression Comparison:**
+- **Deflate**: Standard compression (e.g., 23.1MB → 11.04MB)
+- **Brotli**: Better compression (e.g., 23.1MB → 8.14MB)
+
+:::tip Recommendation
+Use **Brotli** for production releases to minimize download times and bandwidth usage.
+:::
+
+## Patch Bundle Releases
+
+Patch bundles significantly reduce update size by sending only the changes between versions.
+
+### Step 1: Create Patch
+
+First, create a patch between the old and new bundles:
+
+<Tabs groupId="pm-rel-create-patch">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone create-patch \
+  ./old-bundle \
+  ./new-bundle \
+  ./.codepush/patches
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- create-patch \
+  ./old-bundle \
+  ./new-bundle \
+  ./.codepush/patches
+```
+
+  </TabItem>
+</Tabs>
+
+**Parameters:**
+- `./old-bundle`: Path to the previous version's bundle
+- `./new-bundle`: Path to the new version's bundle
+- `./.codepush/patches`: Output directory for the patch
+
+### Step 2: Release Patch
+
+Then release the patch bundle:
+
+<Tabs groupId="pm-rel-release-patch">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone release MyApp-iOS ./.codepush/patches "1.0.0" \
+  --deploymentName Staging \
+  --description "Bug fixes (patch)" \
+  --isPatch true \
+  --compression brotli
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- release MyApp-iOS ./.codepush/patches "1.0.0" \
+  --deploymentName Staging \
+  --description "Bug fixes (patch)" \
+  --isPatch true \
+  --compression brotli
+```
+
+  </TabItem>
+</Tabs>
+
+:::warning Important
+Always use `--isPatch true` when releasing a patch bundle, and include assets alongside the patch bundle.
+:::
+
+### Benefits of Patch Releases
+
+- **Smaller Download Size**: Only diff is transferred
+- **Faster Updates**: Quicker download and installation
+- **Reduced Bandwidth**: Lower costs and data usage
+- **Better UX**: Less waiting time for users
+
+### Example: Patch vs Full Bundle
+
+```
+Full Bundle:   23.1 MB → 8.14 MB (with Brotli)
+Patch Bundle:  23.1 MB → 2.3 MB (90% reduction!)
+```
+
+## Advanced Release Scenarios
+
+### Multi-Platform Release
+
+Deploy to both iOS and Android:
+
+<Tabs groupId="pm-rel-multi">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# iOS
+yarn code-push-standalone release MyApp-iOS ./ios-bundle 1.0.0 \
+  --deploymentName Production \
+  --description "Multi-platform release"
+
+# Android
+yarn code-push-standalone release MyApp-Android ./android-bundle 1.0.0 \
+  --deploymentName Production \
+  --description "Multi-platform release"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# iOS
+npm run code-push-standalone -- release MyApp-iOS ./ios-bundle 1.0.0 \
+  --deploymentName Production \
+  --description "Multi-platform release"
+
+# Android
+npm run code-push-standalone -- release MyApp-Android ./android-bundle 1.0.0 \
+  --deploymentName Production \
+  --description "Multi-platform release"
+```
+
+  </TabItem>
+</Tabs>
+
+### Disabled Release
+
+Create a release but prevent it from being downloaded (useful for preparation):
+
+<Tabs groupId="pm-rel-disabled">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone release MyApp-iOS ./codepush 1.0.0 \
+  --deploymentName Production \
+  --disabled \
+  --description "Prepared for tomorrow's launch"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- release MyApp-iOS ./codepush 1.0.0 \
+  --deploymentName Production \
+  --disabled \
+  --description "Prepared for tomorrow's launch"
+```
+
+  </TabItem>
+</Tabs>
+
+### Mandatory Critical Update
+
+Force all users to update immediately:
+
+<Tabs groupId="pm-rel-mandatory">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone release MyApp-iOS ./codepush 1.0.0 \
+  --deploymentName Production \
+  --mandatory \
+  --description "Critical security fix - mandatory update"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- release MyApp-iOS ./codepush 1.0.0 \
+  --deploymentName Production \
+  --mandatory \
+  --description "Critical security fix - mandatory update"
+```
+
+  </TabItem>
+</Tabs>
+
+### No Duplicate Error
+
+Prevent errors when releasing the same content (useful in automated pipelines):
+
+<Tabs groupId="pm-rel-nodup">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone release MyApp-iOS ./codepush 1.0.0 \
+  --noDuplicateReleaseError \
+  --description "Release (safe for duplicate)"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- release MyApp-iOS ./codepush 1.0.0 \
+  --noDuplicateReleaseError \
+  --description "Release (safe for duplicate)"
+```
+
+  </TabItem>
+</Tabs>
+
+## Promoting Releases
+
+After testing in Staging, promote to Production:
+
+### Basic Promotion
+
+<Tabs groupId="pm-rel-promote-basic">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone promote MyApp-iOS Staging Production
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- promote MyApp-iOS Staging Production
+```
+
+  </TabItem>
+</Tabs>
+
+### Promotion with Options
+
+<Tabs groupId="pm-rel-promote-opts">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone promote MyApp-iOS Staging Production \
+  --rollout 25 \
+  --description "Verified in staging - releasing to 25% of production users"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- promote MyApp-iOS Staging Production \
+  --rollout 25 \
+  --description "Verified in staging - releasing to 25% of production users"
+```
+
+  </TabItem>
+</Tabs>
+
+## Monitoring Releases
+
+### View Deployment History
+
+<Tabs groupId="pm-rel-hist">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone deployment history MyApp-iOS Staging
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- deployment history MyApp-iOS Staging
+```
+
+  </TabItem>
+</Tabs>
+
+### List All Deployments
+
+<Tabs groupId="pm-rel-deployments">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+yarn code-push-standalone deployment list MyApp-iOS
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm run code-push-standalone -- deployment list MyApp-iOS
+```
+
+  </TabItem>
+</Tabs>
+
+## Release Workflow Examples
+
+### Development Workflow
+
+<Tabs groupId="pm-rel-workflow-dev">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# 1. Deploy to staging for testing
+yarn code-push-standalone release MyApp-iOS ./codepush ^1.0.0 \
+  -d Staging \
+  -des "Testing new feature"
+
+# 2. Test thoroughly
+
+# 3. Promote to production with gradual rollout
+yarn code-push-standalone promote MyApp-iOS Staging Production --rollout 25
+
+# 4. Monitor metrics
+
+# 5. Increase rollout
+yarn code-push-standalone patch MyApp-iOS Production --rollout 100
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# 1. Deploy to staging for testing
+npm run code-push-standalone -- release MyApp-iOS ./codepush ^1.0.0 \
+  -d Staging \
+  -des "Testing new feature"
+
+# 2. Test thoroughly
+
+# 3. Promote to production with gradual rollout
+npm run code-push-standalone -- promote MyApp-iOS Staging Production --rollout 25
+
+# 4. Monitor metrics
+
+# 5. Increase rollout
+npm run code-push-standalone -- patch MyApp-iOS Production --rollout 100
+```
+
+  </TabItem>
+</Tabs>
+
+### Hotfix Workflow
+
+<Tabs groupId="pm-rel-workflow-hotfix">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# Urgent bug fix - deploy immediately to all users
+yarn code-push-standalone release MyApp-iOS ./hotfix-bundle 1.0.0 \
+  -d Production \
+  --mandatory \
+  --compression brotli \
+  -des "Critical bug fix"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# Urgent bug fix - deploy immediately to all users
+npm run code-push-standalone -- release MyApp-iOS ./hotfix-bundle 1.0.0 \
+  -d Production \
+  --mandatory \
+  --compression brotli \
+  -des "Critical bug fix"
+```
+
+  </TabItem>
+</Tabs>
+
+### Patch Release Workflow
+
+<Tabs groupId="pm-rel-workflow-patch">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# 1. Create patch
+yarn code-push-standalone create-patch \
+  ./previous-bundle \
+  ./new-bundle \
+  ./.codepush/patches
+
+# 2. Deploy patch to staging
+yarn code-push-standalone release MyApp-iOS ./.codepush/patches 1.0.0 \
+  -d Staging \
+  --isPatch true \
+  -des "Small bug fixes"
+
+# 3. Test
+
+# 4. Promote to production
+yarn code-push-standalone promote MyApp-iOS Staging Production
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# 1. Create patch
+npm run code-push-standalone -- create-patch \
+  ./previous-bundle \
+  ./new-bundle \
+  ./.codepush/patches
+
+# 2. Deploy patch to staging
+npm run code-push-standalone -- release MyApp-iOS ./.codepush/patches 1.0.0 \
+  -d Staging \
+  --isPatch true \
+  -des "Small bug fixes"
+
+# 3. Test
+
+# 4. Promote to production
+npm run code-push-standalone -- promote MyApp-iOS Staging Production
+```
+
+  </TabItem>
+</Tabs>
+
+## Best Practices
+
+### 1. Always Test in Staging First
+
+<Tabs groupId="pm-rel-bp1">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# ✅ Good: Test first
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0 -d Staging
+# ... test thoroughly ...
+yarn code-push-standalone promote MyApp-iOS Staging Production
+
+# ❌ Bad: Direct to production
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0 -d Production
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# ✅ Good: Test first
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0 -d Staging
+# ... test thoroughly ...
+npm run code-push-standalone -- promote MyApp-iOS Staging Production
+
+# ❌ Bad: Direct to production
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0 -d Production
+```
+
+  </TabItem>
+</Tabs>
+
+### 2. Use Semantic Versioning
+
+<Tabs groupId="pm-rel-bp2">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# ✅ Good: Flexible targeting
+yarn code-push-standalone release MyApp-iOS ./bundle "^1.0.0" -d Production
+
+# ⚠️ OK: Exact version (more restrictive)
+yarn code-push-standalone release MyApp-iOS ./bundle "1.0.0" -d Production
+
+# ❌ Avoid: Too broad
+yarn code-push-standalone release MyApp-iOS ./bundle "*" -d Production
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# ✅ Good: Flexible targeting
+npm run code-push-standalone -- release MyApp-iOS ./bundle "^1.0.0" -d Production
+
+# ⚠️ OK: Exact version (more restrictive)
+npm run code-push-standalone -- release MyApp-iOS ./bundle "1.0.0" -d Production
+
+# ❌ Avoid: Too broad
+npm run code-push-standalone -- release MyApp-iOS ./bundle "*" -d Production
+```
+
+  </TabItem>
+</Tabs>
+
+### 3. Gradual Rollouts for Major Changes
+
+<Tabs groupId="pm-rel-bp3">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# ✅ Good: Gradual rollout
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0 \
+  -d Production \
+  --rollout 10 \
+  -des "Major feature update"
+
+# ❌ Risky: All users immediately
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0 \
+  -d Production
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# ✅ Good: Gradual rollout
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0 \
+  -d Production \
+  --rollout 10 \
+  -des "Major feature update"
+
+# ❌ Risky: All users immediately
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0 \
+  -d Production
+```
+
+  </TabItem>
+</Tabs>
+
+### 4. Use Brotli for Production
+
+<Tabs groupId="pm-rel-bp4">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# ✅ Good: Better compression
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0 \
+  -d Production \
+  --compression brotli
+
+# ⚠️ OK: Default compression
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0 -d Production
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# ✅ Good: Better compression
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0 \
+  -d Production \
+  --compression brotli
+
+# ⚠️ OK: Default compression
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0 -d Production
+```
+
+  </TabItem>
+</Tabs>
+
+### 5. Descriptive Release Notes
+
+<Tabs groupId="pm-rel-bp5">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# ✅ Good: Clear description
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0 \
+  -d Production \
+  -des "v1.2.0: Fixed login bug, improved image loading performance"
+
+# ❌ Bad: No context
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0 -d Production
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# ✅ Good: Clear description
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0 \
+  -d Production \
+  -des "v1.2.0: Fixed login bug, improved image loading performance"
+
+# ❌ Bad: No context
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0 -d Production
+```
+
+  </TabItem>
+</Tabs>
+
+## Common Pitfalls
+
+### 1. Wrong App Name
+
+<Tabs groupId="pm-rel-cp1">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# ❌ Error: App not found
+yarn code-push-standalone release MyApp ./bundle 1.0.0
+
+# ✅ Correct: Use exact app name from dashboard
+yarn code-push-standalone release MyApp-iOS ./bundle 1.0.0
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# ❌ Error: App not found
+npm run code-push-standalone -- release MyApp ./bundle 1.0.0
+
+# ✅ Correct: Use exact app name from dashboard
+npm run code-push-standalone -- release MyApp-iOS ./bundle 1.0.0
+```
+
+  </TabItem>
+</Tabs>
+
+### 2. Version Mismatch
+
+<Tabs groupId="pm-rel-cp2">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# ❌ Error: App version 1.5.0 doesn't match target 1.0.0
+yarn code-push-standalone release MyApp-iOS ./bundle "1.0.0"
+
+# ✅ Correct: Match or use range
+yarn code-push-standalone release MyApp-iOS ./bundle "^1.0.0"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# ❌ Error: App version 1.5.0 doesn't match target 1.0.0
+npm run code-push-standalone -- release MyApp-iOS ./bundle "1.0.0"
+
+# ✅ Correct: Match or use range
+npm run code-push-standalone -- release MyApp-iOS ./bundle "^1.0.0"
+```
+
+  </TabItem>
+</Tabs>
+
+### 3. Forgot isPatch Flag
+
+<Tabs groupId="pm-rel-cp3">
+  <TabItem value="yarn" label="yarn" default>
+
+```bash
+# ❌ Error: Will treat patch as full bundle
+yarn code-push-standalone release MyApp-iOS ./patch-bundle 1.0.0
+
+# ✅ Correct: Specify isPatch
+yarn code-push-standalone release MyApp-iOS ./patch-bundle 1.0.0 --isPatch true
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+# ❌ Error: Will treat patch as full bundle
+npm run code-push-standalone -- release MyApp-iOS ./patch-bundle 1.0.0
+
+# ✅ Correct: Specify isPatch
+npm run code-push-standalone -- release MyApp-iOS ./patch-bundle 1.0.0 --isPatch true
+```
+
+  </TabItem>
+</Tabs>
+
+

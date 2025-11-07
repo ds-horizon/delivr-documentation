@@ -19,16 +19,15 @@ const sidebars: SidebarsConfig = {
     'patch-update-guide',
     {
       type: 'category',
-      label: 'SDK (React Native)',
+      label: 'React Native',
       collapsed: false,
       items: [
         'sdk/overview',
         'sdk/installation',
-        'sdk/ios-setup',
-        'sdk/android-setup',
-        'sdk/usage',
+        'sdk/platform-setup',
         'sdk/bundle-generation',
         'sdk/releasing-updates',
+        'sdk/usage',
         'sdk/debugging',
       ],
     },
@@ -52,7 +51,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'CLI (Command Line)',
+      label: 'CLI',
       collapsed: false,
       items: [
         'cli/overview',
