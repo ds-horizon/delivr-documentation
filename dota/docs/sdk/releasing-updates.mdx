@@ -1,0 +1,113 @@
+---
+sidebar_position: 5
+---
+
+# Releasing Updates
+
+Once your app is configured and distributed to users, and you've made JavaScript or asset changes, it's time to release them as OTA updates.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Prerequisites
+
+Before releasing updates:
+
+1. ✅ Your app must be published to the App Store/Play Store with the DOTA SDK integrated
+2. ✅ Deployment keys must be configured in your app code
+3. ✅ You must have generated the JavaScript bundle and assets
+
+See [Bundle Generation](/dota/sdk/bundle-generation) for creating bundles.
+
+## Release Methods
+
+Choose one of the following:
+
+<Tabs groupId="release-method">
+  <TabItem value="ui" label="Web Panel (UI)" default>
+
+Best when:
+- You prefer a guided UI and visual confirmations
+- Non‑technical teammates need to publish
+- You want built‑in charts/monitoring as you release
+
+Steps:
+- Open the [DOTA Web Panel](/dota/web-panel/overview)
+- Select your app and deployment (e.g., Staging/Production)
+- Upload your bundle and assets
+- Configure rollout (optional)
+- Publish the update
+
+Full walkthrough: [Web Panel guide](/dota/web-panel/overview)
+
+  </TabItem>
+  <TabItem value="cli" label="CLI (Terminal)">
+
+Best when:
+- You automate releases in CI/CD
+- You need repeatable, scripted workflows
+- You want granular options (rollout, semver ranges, patch, Brotli)
+
+Quick start commands:
+
+<Tabs groupId="pm-cli-quick">
+  <TabItem value="yarn" label="yarn" default>
+
+Install CLI (project):
+
+```bash
+yarn add --dev @d11/delivr-cli
+```
+
+Check current session:
+
+```bash
+yarn code-push-standalone whoami
+```
+
+If not logged in, see the login steps in the [Installation guide](/dota/cli/installation#access-key-and-authentication).
+
+Release to Production (100% rollout):
+
+```bash
+yarn code-push-standalone release <AppName> ./codepush 1.0.0 -d Production -des "Release"
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+Install CLI (project):
+
+```bash
+npm install --save-dev @d11/delivr-cli
+```
+
+Check current session:
+
+```bash
+npm run code-push-standalone -- whoami
+```
+
+If not logged in, see the login steps in the [Installation guide](/dota/cli/installation).
+
+Release to Production (100% rollout):
+
+```bash
+npm run code-push-standalone -- release <AppName> ./codepush 1.0.0 -d Production -des "Release"
+```
+
+  </TabItem>
+</Tabs>
+
+For complete options, examples, and best practices (rollout, semver ranges, patch bundles, Brotli, promotions), see the detailed guide: [CLI Release Management](/dota/cli/release-management).
+
+  </TabItem>
+</Tabs>
+
+## More resources
+
+- CLI: [Release Management](/dota/cli/release-management)
+- Web: [Web Panel guide](/dota/web-panel/overview)
+- SDK: [Debugging](/dota/sdk/debugging), [API Reference](/dota/sdk/api-reference)
+
+

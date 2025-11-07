@@ -27,7 +27,15 @@ const sidebars: SidebarsConfig = {
         'sdk/platform-setup',
         'sdk/bundle-generation',
         'sdk/releasing-updates',
-        'sdk/usage',
+        {
+          type: 'category',
+          label: 'Advanced',
+          collapsed: false,
+          items: [
+            'sdk/options',
+            'sdk/api-reference',
+          ],
+        },
         'sdk/debugging',
       ],
     },

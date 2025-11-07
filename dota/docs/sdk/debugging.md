@@ -4,7 +4,15 @@ sidebar_position: 8
 
 # Debugging
 
-This guide helps you troubleshoot common issues with the DOTA SDK and understand what's happening during the update process.
+This guide helps you troubleshoot common DOTA SDK issues and see what's happening during the update lifecycle (checking, downloading, installing, activation).
+
+## Quick checklist
+
+- Confirm you're testing in Release (DOTA is disabled in Debug)
+- Watch sync status logs and download progress
+- Verify deployment key and target binary version
+- Check network reachability and server URL
+- Inspect pending/running update metadata
 
 ## Enable Diagnostic Logging
 
@@ -28,16 +36,28 @@ codePush.sync(
 );
 ```
 
+See: [API Reference → sync](/sdk/api-reference#sync) for usage and options.
+
 ### Understanding Status Codes
+
+For the complete list and meanings, see [API Reference → Enums → SyncStatus](/sdk/api-reference#syncstatus).
 
 | Status | Meaning | What to Check |
 |--------|---------|---------------|
 | `CHECKING_FOR_UPDATE` | Querying server for updates | Server reachability, deployment key |
-| `UPDATE_AVAILABLE` | Update found | Deployment key, target app version |
+| `UPDATE_AVAILABLE` | Update found | Target app version, rollout/disabled state |
+| `AWAITING_USER_ACTION` | Waiting for user input (dialog) | `updateDialog` enabled, UI not blocked |
 | `DOWNLOADING_PACKAGE` | Downloading update | Network connectivity, server availability |
+| `DOWNLOAD_REQUEST_SUCCESS` | Download finished | Proceed to install logs |
+| `UNZIPPED_SUCCESS` | Update unzipped | Device storage OK |
+| `DECOMPRESSED_SUCCESS` | Update decompressed | Next step should be install |
 | `INSTALLING_UPDATE` | Installing update | Disk space, permissions |
 | `UPDATE_INSTALLED` | Successfully installed | Install mode setting |
 | `UP_TO_DATE` | No updates available | Version compatibility, deployments |
+| `UPDATE_IGNORED` | Optional update skipped by user | Dialog configuration, user choice |
+| `UPDATE_IGNORED_ROLLBACK` | Ignored due to previous rollback | Investigate crash after prior update; `rollbackRetryOptions` |
+| `PATCH_APPLIED_SUCCESS` | Patch bundle applied successfully | Patch baseline/diff integrity |
+| `SYNC_IN_PROGRESS` | Another sync already running | Debounce duplicate `sync` calls |
 | `UNKNOWN_ERROR` | An error occurred | Check error details |
 
 ## Common Issues
@@ -102,7 +122,7 @@ export default codePush({
 
 1. Test network connectivity:
 ```javascript
-import { NetInfo } from '@react-native-community/netinfo';
+import NetInfo from '@react-native-community/netinfo';
 
 NetInfo.fetch().then(state => {
   console.log('Connected:', state.isConnected);
@@ -257,41 +277,19 @@ adb logcat | grep CodePush
 
 ### Step 4: Verify Configuration
 
-Create a debug component:
+Check the essentials:
+
+- Deployment key:
+  - Confirm correct key is bundled for the platform (iOS `Info.plist`, Android `strings.xml`)
+  - If overriding via JS `deploymentKey`, log it where you set it
+- Target binary version: Ensure the app version matches the release target
+- Current update metadata:
 
 ```javascript
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import codePush from "@d11/dota";
-import DeviceInfo from 'react-native-device-info';
-
-function DebugInfo() {
-  const [info, setInfo] = useState({});
-
-  useEffect(() => {
-    async function getInfo() {
-      const update = await codePush.getUpdateMetadata();
-      const config = await codePush.getConfiguration();
-      
-      setInfo({
-        appVersion: DeviceInfo.getVersion(),
-        buildNumber: DeviceInfo.getBuildNumber(),
-        currentUpdate: update?.label || 'None',
-        deploymentKey: config?.deploymentKey || 'Not set',
-      });
-    }
-    getInfo();
-  }, []);
-
-  return (
-    <View>
-      <Text>App Version: {info.appVersion}</Text>
-      <Text>Build Number: {info.buildNumber}</Text>
-      <Text>Current Update: {info.currentUpdate}</Text>
-      <Text>Deployment Key: {info.deploymentKey?.substring(0, 10)}...</Text>
-    </View>
-  );
-}
+codePush.getUpdateMetadata().then(update => {
+  console.log('Running update label:', update?.label || 'None');
+  console.log('Running package size:', update?.packageSize || 0);
+});
 ```
 
 ## Testing Checklist
@@ -372,7 +370,7 @@ If you're still stuck:
 
 ## Next Steps
 
-- [Review API Reference](/sdk/api-reference)
-- [Explore Advanced Topics](/sdk/advanced)
-- [Learn about Store Guidelines](/sdk/store-guidelines)
+- [API Reference](/sdk/api-reference)
+- [Options](/sdk/options)
+- [CLI release management](/cli/release-management)
 
