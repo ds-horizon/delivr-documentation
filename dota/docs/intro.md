@@ -6,7 +6,7 @@ title: Welcome to DOTA
 
 # DOTA Documentation
 
-**DOTA (Delivr Over-The-Air)** enables seamless over-the-air updates for React Native applications. Push JavaScript and asset updates instantly to your users without waiting for app store approval.
+**DOTA (Delivr Over-The-Air)** enables seamless OTA updates for React Native applications. Push JavaScript and asset updates instantly to your users without waiting for app store approval.
 
 ## What is DOTA?
 
@@ -23,16 +23,16 @@ DOTA provides a complete ecosystem for managing and deploying OTA updates to you
 
 The DOTA ecosystem consists of four main components:
 
-### [SDK (React Native Module)](/sdk/overview)
+### [SDK (React Native Module)](/dota/sdk/overview)
 The React Native module that you integrate into your mobile app to receive OTA updates.
 
-### [Server (Backend API)](/server/overview)
+### [Server (Backend API)](/dota/server/overview)
 The core backend service that manages apps, deployments, and update delivery.
 
-### [Web Panel (Dashboard)](/web-panel/overview)
+### [Web Panel (Dashboard)](/dota/web-panel/overview)
 A modern web interface for managing applications, deployments, and monitoring releases.
 
-### [CLI (Command Line Interface)](/cli/overview)
+### [CLI (Command Line Interface)](/dota/cli/overview)
 A powerful command-line tool for deploying updates from your terminal or CI/CD pipelines.
 
 ## Quick Start Guide
@@ -63,10 +63,10 @@ DOTA uses a plugin-based architecture that allows you to customize every aspect:
 
 Choose your starting point:
 
-- **Mobile Developers**: Start with the [SDK Documentation](/sdk/overview)
-- **Backend Engineers**: Set up the [Server](/server/overview)
-- **DevOps Teams**: Configure the [CLI](/cli/overview) for automated deployments
-- **Product Managers**: Explore the [Web Panel](/web-panel/overview) features
+- **Mobile Developers**: Start with the [SDK Documentation](/dota/sdk/overview)
+- **Backend Engineers**: Set up the [Server](/dota/server/overview)
+- **DevOps Teams**: Configure the [CLI](/dota/cli/overview) for automated deployments
+- **Product Managers**: Explore the [Web Panel](/dota/web-panel/overview) features
 
 ---
 

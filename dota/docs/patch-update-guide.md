@@ -357,11 +357,10 @@ yarn code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
 
 ### File Size Comparison
 
-| Bundle Type | Original | With Deflate | With Brotli | Patch |
-|-------------|----------|--------------|-------------|-------|
-| Full Bundle | 23.1 MB | 11.04 MB | 8.14 MB | - |
-| Patch Bundle | - | - | - | 2.3 MB |
-| **Savings** | - | - | - | **90%** |
+| Bundle Type | Original | With Deflate | With Brotli |
+|-------------|----------|--------------|-------------|
+| Uncompressed Full Bundle | 24.5 MB | 11.04 MB | 8.14 MB |
+| Uncompressed Patch Bundle | ~24.5 MB | 3.82 MB | 2.9 MB (90% 🔥 smaller) |
 
 ### User Experience Impact
 

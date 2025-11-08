@@ -35,7 +35,7 @@ The server is the heart of the DOTA ecosystem. Let's get it running first.
 
 ### Prerequisites
 
-- Docker and Docker Compose installed
+- Docker and Docker Compose [installed](https://docs.docker.com/compose/install/)
 - Node.js 18 or higher
 - Git
 
@@ -518,7 +518,7 @@ Before you can send an update, you need to create a JavaScript bundle.
 
 ### 5.1 Generate Bundle
 
-DOTA provides a way to copy the exact bundle created during build process to certain path for later use.
+DOTA provides a way to copy the exact bundle created during build process to certain path for later use. Follow the platform specific setup and just create a Release build.
 
 <Tabs groupId="platform-auto">
   <TabItem value="android" label="Android" default>
@@ -596,7 +596,7 @@ npm install --save-dev @d11/delivr-cli
   </TabItem>
 </Tabs>
 
-### 6.2 Generate API Token
+### 6.2 Generate Access Token
 
 1. Go to your Web Panel at `http://localhost:5173`
 2. Navigate to **Profile Icon** -> **Token List**
@@ -605,6 +605,8 @@ npm install --save-dev @d11/delivr-cli
 5. Select access level: **All**
 6. Click **"Create"**
 7. **Copy the token immediately** (you won't see it again!)
+
+[📖 Detailed Guide on Managing Tokens](/dota/web-panel/action-and-workflows#create-and-manage-api-tokens)
 
 ### 6.3 Authenticate CLI
 
@@ -638,7 +640,7 @@ Edit your React Native code (change some text, colors, etc.)
 
 **7.2 Generate Bundle**
 
-Re-build the app in release mode.
+Re-build the app in release mode. This will copy the bundle in `.dota/<platform>` directory.
 
 <Tabs groupId="platform-run">
   <TabItem value="android" label="Android">
@@ -668,6 +670,8 @@ yarn ios --mode=Release
    - Deployment: **Staging**
    - Description: "My first OTA update!"
 6. Click **"Deploy"** or **"Publish"**
+
+[📖 Detailed Deployment Guide via Panel →](/dota/web-panel/action-and-workflows#deploy-updates)
 
 ### Option B: Deploy via CLI (Faster)
 
@@ -714,7 +718,7 @@ Use `"1.0.0"` for exact version or `"^1.0.0"` for all 1.x.x versions
 
 **8.1 Restart Your App**
 
-Close and reopen your app (or restart it from your IDE). Make sure you had your changes reverted if testing locally.
+Close and reopen your app (or restart it from your IDE). Make sure you rebuild your app with your changes reverted back to see new bundle impact.
 
 **8.2 Watch for the Update**
 
@@ -755,6 +759,8 @@ Go to the Web Panel and check:
 
 :::success First Update Deployed! 🎉
 ✅ Congratulations! You've successfully deployed your first OTA update!
+
+Checkout the [Patch Bundle Guide](/dota/patch-update-guide) to ship more lightweight OTA updates.
 :::
 
 ---

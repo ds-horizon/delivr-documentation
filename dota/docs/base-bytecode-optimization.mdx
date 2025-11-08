@@ -12,11 +12,14 @@ Base bytecode optimization generates your new Hermes bundle using the previously
 
 ### Size Comparison
 
-```
-Full Bundle Update:       23.1 MB → 8.14 MB
-Standard Patch Update:    23.1 MB → 2.3 MB
-With Base Bytecode:       23.1 MB → 0.9 MB (96% smaller🔥)
-```
+
+### File Size Comparison
+
+| Bundle Type | Original | With Deflate | With Brotli |
+|-------------|----------|--------------|-------------|
+| Uncompressed Full Bundle | 24.5 MB | 11.04 MB | 8.14 MB |
+| Uncompressed Patch Bundle | ~24.5 MB | 3.82 MB | 2.9 MB |
+| Uncompressed Patch Bundle With Base Bytecode | ~24.5 MB | 1.1 MB | 0.8 MB (96% smaller🔥) |
 
 ::::info Compatibility
 Available starting from SDK v1.2.0.

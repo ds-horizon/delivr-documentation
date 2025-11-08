@@ -18,16 +18,16 @@ DOTA (Delivr Over‑The‑Air) lets your React Native app receive updates withou
 
 ## Key Features
 
-- **Seamless silent updates**: Download in the background and apply on the next launch
-- **Mandatory updates**: Enforce critical fixes with a blocking prompt
-- **Flexible rollout policies**: Decide when to check, download, and install
-- **Separate environments**: Use multiple deployment keys for staging and production
-- **Hermes-ready**: Optimized for the Hermes JS engine
-- **First-class TypeScript**: Complete, accurate type definitions
-- **Both architectures**: Works with the old and the new RN architecture
-- **Full or patch bundles**: Ship complete bundles or small patch diffs only
-- **Brotli compression**: Smaller downloads than default deflate
-- **Base bytecode–aware patches**: Dramatically reduces patch size
+- 🚀 **Seamless silent updates**: Download in the background and apply on next launch — see [Install Modes](/dota/sdk/options#install-modes)
+- 🔒 **Mandatory updates**: Enforce critical fixes with a blocking prompt — configure [mandatoryInstallMode](/dota/sdk/options#mandatory-install-mode) and mark releases as mandatory in the [CLI](/dota/cli/release-management#optional-parameters)
+- 🎛️ **Flexible policies**: Decide when to check, download, and install — tune [checkFrequency](/dota/sdk/options#update-check-policies) and [installMode](/dota/sdk/options#install-modes)
+- 🔑 **Separate environments**: Use different deployment keys for Staging/Production — see [Deployment Keys](/dota/sdk/options#deployment-keys)
+- ⚙️ **Hermes‑ready**: Optimized for Hermes; pair with [Base bytecode optimization](/dota/base-bytecode-optimization) for smaller patches
+- 🧩 **TypeScript first**: Complete, accurate type definitions
+- 🏗️ **Both RN architectures**: Compatible with the old and the new architecture
+- 📦 **Full or patch bundles**: Ship complete bundles or small diffs — see [Bundle Generation](/dota/sdk/bundle-generation) and [Ship Your First Patch Bundle](/dota/patch-update-guide)
+- 🗜️ **Brotli compression**: Smaller downloads — enable via [CLI release options](/dota/cli/release-management#brotli-compression)
+- 🧠 **Base bytecode–aware patches**: Dramatically reduces patch size — learn more in [Base bytecode optimization](/dota/sdk/base-bytecode-optimization)
 
 ## How does it work?
 
@@ -40,7 +40,7 @@ To ensure users always have a working build, the DOTA client maintains a copy of
 ## Resources
 
 - [GitHub Repository](https://github.com/ds-horizon/delivr-sdk-ota)
-- [API Reference](/sdk/api-reference)
-- [Troubleshooting Guide](/sdk/debugging)
-- [Advanced Topics](/sdk/advanced)
+- [API Reference](/dota/sdk/api-reference)
+- [Advanced Options](/dota/sdk/options)
+- [Troubleshooting Guide](/dota/sdk/debugging)
 

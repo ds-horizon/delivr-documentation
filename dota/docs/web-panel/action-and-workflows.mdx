@@ -99,6 +99,32 @@ Use separate deployment keys to isolate testing from production traffic:
 
 Each deployment key represents a different update channel for your app.
 
+## Create Your App and Generate Deployment Keys
+
+Follow this quick flow to create an app and get deployment keys for Staging and Production.
+
+**1) Create your app**
+
+1. In the Web Panel, click **Create App** (or **New Application**)
+2. Enter details:
+   - **App Name**: `MyApp-iOS` or `MyApp-Android`
+   - **Platform**: iOS or Android
+   - **Description**: Optional
+
+**2) Get your deployment keys**
+
+- After creation, two keys are generated:
+  - 🟡 **Staging** – For internal testing and QA
+  - 🟢 **Production** – Live updates to end users
+
+**3) Copy and store securely**
+
+- Copy both keys; you’ll need them in your mobile app and for releases.
+
+::::warning Important
+Keep these keys secure. They are embedded in your app and control where updates are delivered.
+::::
+
 ## Common Questions
 
 **Q: What are deployment keys?**  
