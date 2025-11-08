@@ -600,7 +600,7 @@ npm install --save-dev @d11/delivr-cli
 
 1. Go to your Web Panel at `http://localhost:5173`
 2. Navigate to **Profile Icon** -> **Token List**
-3. Click on **Click Token**
+3. Click on **Create Token**
 4. Enter a name: `CLI Access`
 5. Select access level: **All**
 6. Click **"Create"**
@@ -726,6 +726,26 @@ Close and reopen your app (or restart it from your IDE). Make sure you had your 
 
 After the second restart, you should see your code changes!
 
+Use `codePush.sync` to observe bundle status events (see [API Reference → sync](/dota/sdk/api-reference#sync)):
+
+```javascript
+codePush.sync(
+  {},
+  (status) => {
+    switch (status) {
+      case codePush.SyncStatus.DOWNLOAD_REQUEST_SUCCESS:
+        // Downloaded successfully
+        break;
+      case codePush.SyncStatus.UPDATE_INSTALLED:
+        // Update installed; activation depends on installMode
+        break;
+    }
+  }
+);
+```
+
+For the full list of statuses, see [SyncStatus](/dota/sdk/api-reference#syncstatus).
+
 **8.4 Monitor in Dashboard**
 
 Go to the Web Panel and check:
@@ -813,6 +833,7 @@ Now that you've sent your first OTA update, explore more capabilities:
 ### 📚 Deep Dive
 
 - **[SDK API Reference](/dota/sdk/api-reference)** - Full API documentation
+- **[Ship Your First Patch Bundle](/dota/patch-update-guide)** - End-to-end patch release
 - **[Server Configuration](/dota/server/installation)** - Advanced server setup
 - **[CLI Advanced Usage](/dota/cli/release-management)** - Master the command line
 - **[Debugging Guide](/dota/sdk/debugging)** - Troubleshoot issues

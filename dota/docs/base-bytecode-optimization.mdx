@@ -1,0 +1,132 @@
+---
+id: base-bytecode-optimization
+sidebar_label: Base Bytecode Optimization ✨
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Base Bytecode Optimization
+
+Base bytecode optimization generates your new Hermes bundle using the previously shipped bundle (the "base") as a reference. This was acheived by passing a flag `--base-bytecode <path-to-base-bundle>` to the Hermes CLI while generating the new bundle. This results in a smaller patch bundle because only the bytecode differences are transmitted (vs. the base).
+
+### Size Comparison
+
+```
+Full Bundle Update:       23.1 MB → 8.14 MB
+Standard Patch Update:    23.1 MB → 2.3 MB
+With Base Bytecode:       23.1 MB → 0.9 MB (96% smaller🔥)
+```
+
+::::info Compatibility
+Available starting from SDK v1.2.0.
+::::
+
+## Enable Base Bytecode Optimization
+
+To use this feature, set the path to the old bundle saved in the [Patch Update Guide - Step 1](/dota/patch-update-guide#step-1-save-your-current-bundle-old-version). You’ll use this as the base when generating the new bundle in Step 3 of the [Patch Update Guide](/dota/patch-update-guide#step-3-generate-new-bundle-after-changes).
+
+<Tabs groupId="platform-auto">
+  <TabItem value="android" label="Android" default>
+Either set the environment variable or use the `gradle.properties` file.
+
+```bash
+# Environment variable
+export DOTA_BASE_BUNDLE_PATH=.dota-versions/v1.0.0-android/index.android.bundle && ./gradlew assembleRelease
+```
+
+```properties
+# gradle.properties
+dotaBaseBundlePath=.dota-versions/v1.0.0-android/index.android.bundle
+```
+
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+
+React Native does not directly expose `--base-bytecode` flag for iOS, so we add support via a patch to `react-native-xcode.sh` using [patch-package](https://www.npmjs.com/package/patch-package).
+
+1) Install [patch-package](https://www.npmjs.com/package/patch-package) (skip if already installed):
+
+```bash
+yarn add patch-package postinstall-postinstall --dev
+```
+
+Add to `package.json`:
+
+```json
+{
+  "scripts": {
+    "postinstall": "patch-package"
+  }
+}
+```
+
+2) Modify `node_modules/react-native/scripts/react-native-xcode.sh` to pass the base bytecode flag to Hermes. Insert before the Hermes CLI execution block:
+
+```bash
+# Inside react-native-xcode.sh
+
+BASE_BYTECODE_PATH=""
+if [[ ! -z $DOTA_BASE_BUNDLE_PATH ]]; then
+  if [[ -f $DOTA_BASE_BUNDLE_PATH ]]; then
+    BASE_BYTECODE_PATH="--base-bytecode $DOTA_BASE_BUNDLE_PATH"
+    echo "Using --base-bytecode with path: $DOTA_BASE_BUNDLE_PATH"
+  else
+    echo "Not using --base-bytecode, path: $DOTA_BASE_BUNDLE_PATH, file not found"
+    BASE_BYTECODE_PATH=""
+  fi
+fi
+
+"$HERMES_CLI_PATH" -emit-binary -max-diagnostic-width=80 $EXTRA_COMPILER_ARGS -out "$DEST/$BUNDLE_NAME.jsbundle" "$BUNDLE_FILE" $BASE_BYTECODE_PATH
+```
+
+Create the patch:
+
+```bash
+yarn patch-package react-native
+```
+
+3) Provide the base bundle path via env var (use the old bundle path saved in `.dota-versions/`):
+
+```bash
+# .xcode.env
+export DOTA_BASE_BUNDLE_PATH=.dota-versions/v1.0.0-ios/main.jsbundle
+```
+
+```bash
+# Inline when building
+export DOTA_BASE_BUNDLE_PATH=.dota-versions/v1.0.0-ios/main.jsbundle && yarn ios --mode=Release
+```
+
+  </TabItem>
+</Tabs>
+
+:::info
+Follow every step in the [Patch Update Guide](/dota/patch-update-guide); this feature only adds one extra action just before generating the new bundle (set the base bundle path).
+:::
+
+::::note Note
+If you are using manual bundle generation as described in [Bundle Generation Guide](/dota/sdk/bundle-generation#2-manual-bundle-generation), pass `--base-bundle-path <path-to-old-bundle>` to the CLI.
+::::
+
+## Disable Base Bytecode Optimization
+To disable this feature, unset the `DOTA_BASE_BUNDLE_PATH` environment variable.
+
+## Verify Base Bytecode Optimization
+To verify that the base bytecode optimization is enabled, you can check the size of the patch bundle being downloaded. Use `sync` API to verify the size of the patch bundle being downloaded.
+
+```javascript
+codePush.sync(
+  {},
+  (status) => {
+    console.log(status);
+  },
+  ({ receivedBytes, totalBytes }) => {
+    console.log(`Downloaded ${receivedBytes} of ${totalBytes} bytes`);
+  }
+);
+```
+
+::::success Base bytecode optimization enabled
+✅ Setup complete. Your next bundle builds will use the saved base to produce smaller patch bundles. Continue with create‑patch and release steps in the Patch Update Guide.
+::::

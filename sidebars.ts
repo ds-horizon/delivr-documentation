@@ -17,6 +17,7 @@ const sidebars: SidebarsConfig = {
     'intro',
     'full-setup',
     'patch-update-guide',
+    'base-bytecode-optimization',
     {
       type: 'category',
       label: 'React Native',
@@ -55,6 +56,8 @@ const sidebars: SidebarsConfig = {
       items: [
         'web-panel/overview',
         'web-panel/installation',
+        'web-panel/action-and-workflows',
+        'web-panel/deployment',
       ],
     },
     {

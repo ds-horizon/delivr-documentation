@@ -4,7 +4,14 @@ sidebar_position: 2
 
 # Installation
 
-This guide will help you set up the DOTA Web Panel for local development or production deployment.
+This guide will help you set up the DOTA Web Panel for local development or production build.
+
+## Quick Checklist
+
+- [Install project dependencies](#install-dependencies)
+- [Google OAuth setup](#google-oauth-setup)
+- [Backend setup](#backend-server-setup)
+- [Development](#run-the-web-panel-development) or [Production build](#run-the-web-panel-production-build) ready
 
 ## Prerequisites
 
@@ -13,9 +20,8 @@ Before you begin, ensure you have:
 - **Node.js 18.18.0** (exact version required)
 - **Corepack** for package manager version management
 - **pnpm 10.17.0+** (managed by Corepack)
-- **DOTA Backend Server** running and accessible
 
-## Quick Setup
+## Install Dependencies
 
 ### 1. Clone the Repository
 
@@ -69,6 +75,10 @@ GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
 DELIVR_BACKEND_URL=http://localhost:3010
 ```
 
+:::success Environment configured
+Your Web Panel is configured to talk to the backend.
+:::
+
 ## Google OAuth Setup
 
 The dashboard uses Google OAuth for authentication. Follow these steps to configure it:
@@ -112,7 +122,7 @@ The Web Panel requires the DOTA Backend server to be running.
 
 ### Start Backend Locally
 
-Follow the [Backend Installation Guide](/server/installation) to set up and start the backend server.
+Follow the [Backend Installation Guide](/dota/server/installation) to set up and start the backend server.
 
 Verify the backend is running:
 
@@ -132,7 +142,7 @@ DELIVR_BACKEND_URL=http://localhost:3010
 DELIVR_BACKEND_URL=https://api.your-domain.com
 ```
 
-## Development Mode
+## Run the Web Panel (Development)
 
 Start the development server:
 
@@ -140,7 +150,11 @@ Start the development server:
 pnpm dev
 ```
 
-The application will be available at `http://localhost:5173`
+The application will be available at `http://localhost:5173` 🚀
+
+:::success Dev server running
+Open http://localhost:5173 to access the Web Panel in development mode.
+:::
 
 ### Development Features
 
@@ -148,7 +162,7 @@ The application will be available at `http://localhost:5173`
 - **TypeScript checking**: Real-time type validation
 - **Fast refresh**: Preserves component state during edits
 
-## Production Build
+## Run the Web Panel (Production Build)
 
 ### Build for Production
 
@@ -178,87 +192,6 @@ pnpm build
 pnpm preview
 ```
 
-## Additional Commands
-
-### Run Tests
-
-```bash
-pnpm test
-```
-
-### Run Linting
-
-```bash
-pnpm lint
-```
-
-### Type Checking
-
-```bash
-pnpm typecheck
-```
-
-### Generate Routes and Config
-
-```bash
-pnpm gen:routes && pnpm gen:config
-```
-
-## Deployment
-
-### Deploy to Vercel
-
-```bash
-# Install Vercel CLI
-npm install -g vercel
-
-# Deploy
-vercel
-```
-
-### Deploy to Netlify
-
-```bash
-# Build the application
-pnpm build
-
-# Deploy dist folder to Netlify
-```
-
-### Deploy to Custom Server
-
-After building:
-
-```bash
-pnpm build
-```
-
-Serve the `dist/` directory using any static file server:
-
-```bash
-# Using serve
-npx serve -s dist
-
-# Using nginx, apache, or your preferred server
-```
-
-## Environment Variables
-
-### Required Configuration
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `GOOGLE_CLIENT_ID` | Google OAuth Client ID | `xxx.apps.googleusercontent.com` |
-| `GOOGLE_CLIENT_SECRET` | Google OAuth Client Secret | `GOCSPX-xxxxx` |
-| `DELIVR_BACKEND_URL` | Backend API URL | `http://localhost:3010` |
-
-### Optional Configuration
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | Server port | `3000` |
-| `NODE_ENV` | Environment mode | `development` |
-
 ## Verification
 
 After starting the application:
@@ -267,6 +200,36 @@ After starting the application:
 2. **Sign In**: Click "Sign in with Google"
 3. **Authorize**: Grant permissions to the app
 4. **Dashboard**: You should see the dashboard home page
+
+## Additional Commands (Optional)
+
+### Run Tests
+Execute the unit test suite to validate functionality.
+
+```bash
+pnpm test
+```
+
+### Run Linting
+Check code style and catch common issues.
+
+```bash
+pnpm lint
+```
+
+### Type Checking
+Run TypeScript type checks for static correctness.
+
+```bash
+pnpm typecheck
+```
+
+### Generate Routes and Config
+Regenerate typed routes and configuration artifacts after changes.
+
+```bash
+pnpm gen:routes && pnpm gen:config
+```
 
 ## Troubleshooting
 
@@ -326,11 +289,4 @@ rm -rf node_modules dist
 pnpm install
 pnpm build
 ```
-
-## Next Steps
-
-- [Learn about release management](/web-panel/releases)
-- [Configure API tokens](/web-panel/api-tokens)
-- [Explore organization management](/web-panel/organizations)
-- [Integrate with the CLI](/cli/overview)
 
