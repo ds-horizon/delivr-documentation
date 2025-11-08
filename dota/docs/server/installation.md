@@ -2,9 +2,17 @@
 sidebar_position: 2
 ---
 
-# Installation and Development Setup
+# Installation
 
 This guide will help you set up the DOTA Server for local development or deployment.
+
+::::tip Quick Checklist
+- Docker and Docker Compose installed
+- Node.js 18+ and Git installed
+- Copy `.env` from `.env.example` and update values
+- Start services: `docker-compose up`
+- Verify: `curl http://localhost:3010/health` returns status ok
+::::
 
 ## Prerequisites
 
@@ -39,7 +47,7 @@ Create a `.env` file in the project root:
 cp .env.example .env
 ```
 
-Edit `.env` with your configuration. See [Configuration Guide](/server/configuration) for detailed options.
+Edit `.env` with your configuration. See [Configuration Guide](/dota/server/configuration) for detailed options.
 
 ### 4. Start with Docker (Recommended)
 
@@ -56,6 +64,10 @@ This will start:
 - LocalStack (for S3 emulation)
 
 The server will be available at `http://localhost:3010`
+
+::::success Server Ready
+✅ Your DOTA Server is now running! Keep it running for the rest of the setup.
+::::
 
 ## Manual Setup
 
@@ -278,8 +290,8 @@ npm run migrate
 
 ## Next Steps
 
-- [Configure your deployment](/server/configuration)
-- [Learn about deployment strategies](/server/deployment)
-- [Explore the API](/server/api-reference)
-- [Set up the Web Panel](/web-panel/overview)
+- [Configure your deployment](/dota/server/configuration)
+- [Learn about deployment strategies](/dota/server/deployment)
+- [Explore the API](/dota/server/api-reference)
+- [Set up the Web Panel](/dota/web-panel/overview)
 

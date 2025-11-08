@@ -51,9 +51,9 @@ Optional Redis integration for advanced analytics and monitoring.
 
 ### 🛠️ Complete Toolchain
 Works seamlessly with:
-- [DOTA CLI](/cli/overview) - Command-line deployments
-- [DOTA Web Panel](/web-panel/overview) - Visual management interface
-- [DOTA SDK](/sdk/overview) - React Native client integration
+- [DOTA CLI](/dota/cli/overview) - Command-line deployments
+- [DOTA Web Panel](/dota/web-panel/overview) - Visual management interface
+- [DOTA SDK](/dota/sdk/overview) - React Native client integration
 
 ## Architecture
 
@@ -121,14 +121,6 @@ The server is built with modern technologies:
 - **Storage**: Plugin-based (S3, Azure Blob, etc.)
 - **Containerization**: Docker for easy deployment
 
-## Quick Links
-
-- [Installation & Setup](/server/installation)
-- [Deployment Guide](/server/deployment)
-- [Configuration](/server/configuration)
-- [API Reference](/server/api-reference)
-- [GitHub Repository](https://github.com/ds-horizon/delivr-server-ota)
-
 ## Use Cases
 
 ### Local Development
@@ -143,23 +135,9 @@ Support multiple organizations with tenant isolation and RBAC.
 ### Hybrid Cloud
 Mix local and cloud resources based on your needs.
 
-## Getting Started
-
-1. [Install and configure the server](/server/installation)
-2. [Choose your deployment strategy](/server/deployment)
-3. [Configure plugins](/server/configuration)
-4. [Set up the Web Panel](/web-panel/overview)
-5. [Integrate with your React Native app](/sdk/overview)
-
-## Contributing
-
-DOTA is an open-source project and welcomes contributions from the community. For details on how to contribute, please see the [contributing guide](https://github.com/ds-horizon/delivr-server-ota/blob/main/CONTRIBUTING.md).
-
-## License
-
-This code is provided under the MIT License. See the [LICENSE](https://github.com/ds-horizon/delivr-server-ota/blob/main/LICENSE) file to learn more.
-
-## Support
-
-If you need feedback or support, reach out via the [Issue Tracker](https://github.com/ds-horizon/delivr-server-ota/issues).
+## Resources
+- [Github Repository](https://github.com/ds-horizon/delivr-server-ota)
+- [SDK Documentation](/dota/sdk/overview)
+- [CLI Documentation](/dota/cli/overview)
+- [Web Panel Documentation](/dota/web-panel/overview)
 
