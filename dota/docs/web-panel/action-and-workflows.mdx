@@ -1,0 +1,116 @@
+---
+sidebar_position: 2.5
+sidebar_label: Action & Workflows
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Action & Workflows
+
+This page highlights common actions you can perform in the Web Panel: generating API tokens, deploying updates from the UI, and managing multiple deployment keys.
+
+## Create and Manage API Tokens
+
+API tokens are used to authenticate API calls from the [CLI](/dota/cli/overview) or CI/CD pipelines.
+
+### Create a token
+
+1. Navigate to **Profile Icon** -> **Token List**
+2. Click on **Create Token**
+3. Enter a descriptive name (e.g., “CI Pipeline Token”, “CLI Access”)  
+4. Select **Access Level**:  
+   - **All** – Full read and write access
+   - **Write** – Create and update deployments
+   - **Read** – View deployments and app information only
+5. Click **Create Token** – your token will be generated
+6. Copy the token immediately and store it securely (you won’t be able to see it again)
+7. Use this token with the CLI or API for authentication
+
+### Manage tokens
+
+- View all tokens on the **Tokens** page  
+- Delete tokens you no longer need  
+- Create separate tokens for CI/CD, local development, or different team members
+
+:::tip
+Use different tokens per environment (e.g., staging vs production) for better security and revocation control.
+:::
+
+## Deploy Updates
+
+You can send DOTA updates directly from the Web Panel:
+
+1. Click **Create Release**
+
+<div style={{ textAlign: 'center' }}>
+  <img src={require('./img/create-release.png').default} alt="Create Release Button" width="900" />
+  <div style={{ fontSize: '0.9rem', marginTop: 8, color: 'var(--ifm-color-emphasis-700)' }}>
+    Create Release Button
+  </div>
+</div>
+
+2. Upload your application bundle
+
+<div style={{ textAlign: 'center' }}>
+  <img src={require('./img/create-release-step-1.png').default} alt="Upload Bundle" width="900" />
+  <div style={{ fontSize: '0.9rem', marginTop: 8, color: 'var(--ifm-color-emphasis-700)' }}>
+    Upload Bundle
+  </div>
+</div>
+
+3. App version and deployment details
+
+<div style={{ textAlign: 'center' }}>
+  <img src={require('./img/create-release-step-2.png').default} alt="Version and Deployment" width="900" />
+  <div style={{ fontSize: '0.9rem', marginTop: 8, color: 'var(--ifm-color-emphasis-700)' }}>
+    Version and Deployment
+  </div>
+</div>
+
+4. Rollout and flags configuration
+
+<div style={{ textAlign: 'center' }}>
+  <img src={require('./img/create-release-step-3.png').default} alt="Rollout and Flags" width="900" />
+  <div style={{ fontSize: '0.9rem', marginTop: 8, color: 'var(--ifm-color-emphasis-700)' }}>
+    Rollout and Flags
+  </div>
+</div>
+
+5. Review changes – verify summary and confirm
+
+<div style={{ textAlign: 'center' }}>
+  <img src={require('./img/create-release-review-changes.png').default} alt="Review Changes" width="900" />
+  <div style={{ fontSize: '0.9rem', marginTop: 8, color: 'var(--ifm-color-emphasis-700)' }}>
+    Review Changes
+  </div>
+</div>
+
+:::info
+The dashboard shows all deployments regardless of whether they were created from the Web UI or the [CLI](/dota/cli/overview).
+:::
+
+## Managing Multiple Deployment Keys
+
+Use separate deployment keys to isolate testing from production traffic:
+
+- **Staging Deployment** – For internal testing and QA  
+- **Production Deployment** – Live updates to end users
+
+Each deployment key represents a different update channel for your app.
+
+## Common Questions
+
+**Q: What are deployment keys?**  
+A: Secure tokens that identify where OTA updates should be delivered. Generate them in the dashboard, embed them in your app, and use them to target deployments.
+
+**Q: Do I need to update the app store every time?**  
+A: No. Once your app is in the store with the SDK and deployment keys, you can send JavaScript/asset updates without store approval.
+
+**Q: Can I deploy from both dashboard and CLI?**  
+A: Yes. The dashboard shows all deployments whether they came from the Web UI or the CLI.
+
+**Q: How do I rollback an update?**  
+A: Deploy a previous working version using the same deployment key. Users will receive it like any other update.
+
+

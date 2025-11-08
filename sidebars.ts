@@ -17,24 +17,32 @@ const sidebars: SidebarsConfig = {
     'intro',
     'full-setup',
     'patch-update-guide',
+    'base-bytecode-optimization',
     {
       type: 'category',
-      label: 'SDK (React Native)',
+      label: 'React Native',
       collapsed: false,
       items: [
         'sdk/overview',
         'sdk/installation',
-        'sdk/ios-setup',
-        'sdk/android-setup',
-        'sdk/usage',
+        'sdk/platform-setup',
         'sdk/bundle-generation',
         'sdk/releasing-updates',
+        {
+          type: 'category',
+          label: 'Advanced',
+          collapsed: false,
+          items: [
+            'sdk/options',
+            'sdk/api-reference',
+          ],
+        },
         'sdk/debugging',
       ],
     },
     {
       type: 'category',
-      label: 'Server (Backend)',
+      label: 'Server',
       collapsed: false,
       items: [
         'server/overview',
@@ -43,16 +51,18 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Web Panel (Dashboard)',
+      label: 'Web Panel',
       collapsed: false,
       items: [
         'web-panel/overview',
         'web-panel/installation',
+        'web-panel/action-and-workflows',
+        'web-panel/deployment',
       ],
     },
     {
       type: 'category',
-      label: 'CLI (Command Line)',
+      label: 'CLI',
       collapsed: false,
       items: [
         'cli/overview',

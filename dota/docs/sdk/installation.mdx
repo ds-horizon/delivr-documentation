@@ -1,0 +1,88 @@
+---
+sidebar_position: 2
+---
+
+# Installation
+
+Install the DOTA SDK and complete the required platform setup to enable OTA updates.
+
+## Prerequisites
+
+Before installing the DOTA SDK, ensure you have:
+
+- React Native 0.60 or higher
+- Node.js 14 or higher
+- Xcode 12+ (for iOS)
+- Android Studio with SDK 21+ (for Android)
+
+## Install the Package
+
+Choose your preferred package manager:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs groupId="package-manager">
+  <TabItem value="yarn" label="Yarn" default>
+
+```bash
+yarn add @d11/dota
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm install @d11/dota
+```
+
+  </TabItem>
+</Tabs>
+
+## Quick integration
+
+The simplest integration wraps your root component with the `codePush` higher-order component:
+
+```javascript
+import codePush from "@d11/dota";
+
+function MyApp() {
+  // Your app code
+  return <View>...</View>;
+}
+
+export default codePush(MyApp);
+```
+
+By default, this configuration:
+- Checks for updates on every app start
+- Silently downloads available updates
+- Installs updates on the next app restart
+- Forces immediate installation for mandatory updates
+
+### Update policies (optional)
+
+You can customize when updates are checked and applied. See the full options in [Usage](/sdk/usage):
+
+```javascript
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.IMMEDIATE,
+};
+
+export default codePush(codePushOptions)(MyApp);
+```
+
+## Platform-specific setup (required)
+
+Complete the steps in the [Platform Setup](/dota/sdk/platform-setup) guide (Android/iOS). This is required for the app to build correctly and receive updates.
+
+### Multi-platform apps
+
+If you're targeting both iOS and Android:
+
+1. It is recommended to create **separate DOTA applications** for each platform in the DOTA dashboard
+2. Each platform will have its own deployment keys
+3. This allows you to manage updates independently for iOS and Android
+
+

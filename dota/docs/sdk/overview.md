@@ -2,91 +2,40 @@
 sidebar_position: 1
 ---
 
-# React Native SDK - Overview
+# Overview
 
-React Native Module for OTA Updates. Instantly deliver JS and asset updates to your React Native apps.
+Over‑the‑air updates for React Native. Ship JS and assets instantly—no app store release.
 
 ## What is the DOTA SDK?
 
-The DOTA SDK (Delivr Over-The-Air) is a React Native module that enables your mobile applications to receive over-the-air updates without requiring users to download a new version from the app store. This allows you to:
+DOTA (Delivr Over‑The‑Air) lets your React Native app receive updates without publishing a new store build. With DOTA you can:
 
-- Push bug fixes instantly to all users
-- Deploy new features without app store approval delays
-- Update JavaScript code and assets on-the-fly
-- Implement gradual rollouts and A/B testing
-- Rollback problematic updates quickly
+- Ship bug fixes to all users instantly
+- Release features without App Store/Play Store approval
+- Update JavaScript and assets on the fly
+- Roll out gradually and run A/B experiments
+- Roll back safely if something goes wrong
 
 ## Key Features
 
-- **Silent Updates**: Updates download in the background and apply on next app restart
-- **Mandatory Updates**: Force users to install critical updates immediately
-- **Flexible Update Policies**: Control when and how updates are checked and applied
-- **Multiple Deployment Keys**: Support for staging and production environments
-- **Hermes Support**: Optimized for React Native with Hermes engine
-- **TypeScript Support**: Full TypeScript definitions included
+- **Seamless silent updates**: Download in the background and apply on the next launch
+- **Mandatory updates**: Enforce critical fixes with a blocking prompt
+- **Flexible rollout policies**: Decide when to check, download, and install
+- **Separate environments**: Use multiple deployment keys for staging and production
+- **Hermes-ready**: Optimized for the Hermes JS engine
+- **First-class TypeScript**: Complete, accurate type definitions
+- **Both architectures**: Works with the old and the new RN architecture
+- **Full or patch bundles**: Ship complete bundles or small patch diffs only
+- **Brotli compression**: Smaller downloads than default deflate
+- **Base bytecode–aware patches**: Dramatically reduces patch size
 
-## Installation
+## How does it work?
 
-Add the SDK to your React Native app:
+A React Native app is composed of JavaScript files and accompanying [images](https://reactnative.dev/docs/image), which are bundled by the [Metro bundler](https://github.com/facebook/metro) and shipped inside a platform binary (an `.ipa` or `.apk`). After you release, changing JS or images typically requires rebuilding and redistributing the entire binary, including store review time.
 
-**Using Yarn:**
-```bash
-yarn add @d11/dota
-```
+DOTA keeps your JavaScript and image assets synchronized with updates you publish to the DOTA server. Your app retains the reliability of an offline binary while gaining the web‑like agility of side‑loading updates as soon as they’re available.
 
-**Using NPM:**
-```bash
-npm install @d11/dota
-```
-
-## Platform Setup
-
-After installation, you need to configure the DOTA SDK for each platform you're targeting:
-
-- [iOS Setup Guide](/sdk/ios-setup)
-- [Android Setup Guide](/sdk/android-setup)
-
-## Basic Usage
-
-The simplest integration wraps your root component with the `codePush` higher-order component:
-
-```javascript
-import codePush from "@d11/dota";
-
-function MyApp() {
-  // Your app code
-  return <View>...</View>;
-}
-
-export default codePush(MyApp);
-```
-
-By default, this configuration:
-- Checks for updates on every app start
-- Silently downloads available updates
-- Installs updates on the next app restart
-- Forces immediate installation for mandatory updates
-
-## Update Policies
-
-You can customize when updates are checked and applied:
-
-```javascript
-const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.IMMEDIATE,
-};
-
-export default codePush(codePushOptions)(MyApp);
-```
-
-## Next Steps
-
-1. [Install the SDK](/sdk/installation) in your app
-2. [Configure iOS](/sdk/ios-setup) or [Android](/sdk/android-setup)
-3. [Create JavaScript bundles](/sdk/bundle-generation)
-4. [Learn about the API](/sdk/api-reference)
-5. [Deploy your first update](/sdk/releasing-updates)
+To ensure users always have a working build, the DOTA client maintains a copy of the previous update. If a newly applied update causes crashes, it can automatically roll back to the last good version, so you can move fast without risking a broken experience.
 
 ## Resources
 

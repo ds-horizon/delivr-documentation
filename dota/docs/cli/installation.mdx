@@ -1,0 +1,135 @@
+---
+sidebar_position: 2
+---
+
+# Installation
+
+Install the DOTA CLI per‑project (recommended), or globally if you prefer. Then authenticate to start releasing.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Prerequisites
+
+- Node.js 14+
+- npm or yarn
+- Access key from the DOTA dashboard (for authentication)
+
+## Installation
+
+<Tabs groupId="pm">
+  <TabItem value="npm" label="npm" default>
+
+```bash
+npm install --save-dev @d11/delivr-cli
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="yarn">
+
+```bash
+yarn add --dev @d11/delivr-cli
+```
+
+  </TabItem>
+</Tabs>
+
+After project install, you can use the CLI via your package manager or npx:
+
+```bash
+# Using npm
+npm run code-push-standalone <command>
+
+# Using yarn
+yarn code-push-standalone <command>
+
+# Using npx (no install needed)
+npx code-push-standalone <command>
+```
+
+<details>
+<summary>Alternative: Global installation</summary>
+
+```bash
+npm install -g @d11/delivr-cli
+```
+
+After global install, run commands directly:
+
+```bash
+code-push-standalone <command>
+```
+
+</details>
+
+## Getting an Access Key
+
+Before you can use the CLI, you need an access key from the DOTA Dashboard.
+
+### Steps to Get Access Key:
+
+1. Open the DOTA Dashboard
+2. Go to Settings → Tokens
+3. Generate a new token
+4. Copy the token (shown once) and store it securely
+
+:::warning Important
+You won't be able to see the token again after creation. If you lose it, generate a new one.
+:::
+
+## Authentication
+
+Most commands require login with an access key.
+
+<Tabs groupId="pm-auth">
+  <TabItem value="yarn" label="yarn" default>
+
+Login:
+
+```bash
+yarn code-push-standalone login --accessKey <your-access-key> <server-url>
+```
+
+Check session:
+
+```bash
+yarn code-push-standalone whoami
+```
+
+Logout:
+
+```bash
+yarn code-push-standalone logout
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+Login:
+
+```bash
+npm run code-push-standalone login --accessKey <your-access-key> <server-url>
+```
+
+Check session:
+
+```bash
+npm run code-push-standalone whoami
+```
+
+Logout:
+
+```bash
+npm run code-push-standalone logout
+```
+
+  </TabItem>
+</Tabs>
+
+:::tip
+If a server URL is already configured, you can omit it. Check: `cat ~/.code-push.config`.
+:::
+
+
+
+

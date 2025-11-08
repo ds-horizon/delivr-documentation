@@ -1,0 +1,130 @@
+---
+sidebar_position: 4
+---
+
+# Bundle Generation
+
+Before you can deploy OTA updates, you need to generate JavaScript bundles and assets. This guide covers build-time bundling (recommended) and manual methods, with Hermes support.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::tip Smaller Patches
+For even smaller patch bundles, enable [Base Bytecode Optimization](/dota/sdk/base-bytecode-optimization) (v1.2.0+).
+:::
+
+## 1. Build-time Bundling (Recommended)
+
+This method integrates DOTA into your build process so bundles are created automatically.
+
+<Tabs groupId="platform-auto">
+  <TabItem value="android" label="Android" default>
+
+Add to `android/app/build.gradle`:
+
+```gradle
+apply from: "../../node_modules/@d11/dota/android/codepush.gradle"
+```
+
+:::note
+During builds, this Gradle script copies the generated bundle and assets to `.dota/android`.
+:::
+
+Optional: disable automatic copying by setting in `gradle.properties`:
+
+```properties
+dotaCopyBundle=false
+```
+
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+
+In your `Podfile`:
+
+```ruby
+# Import at the top
+require_relative '../node_modules/@d11/dota/ios/scripts/dota_pod_helpers.rb'
+
+# Include in the post_install block
+post_install do |installer|
+  dota_post_install(installer, 'YourAppTarget', File.expand_path(__dir__))
+end
+```
+Then run:
+
+```bash
+cd ios && pod install
+```
+
+:::note
+During builds, this post_install hook copies the generated bundle and assets to `.dota/ios`.
+:::
+
+Optional: disable automatic copying (in `.xcode.env` or the shell):
+
+```bash
+export DOTA_COPY_BUNDLE=false
+```
+
+  </TabItem>
+</Tabs>
+
+## 2. Manual Bundle Generation
+
+Use this method if you need more control over the bundle generation process or need to generate bundles outside of the build process.
+
+<Tabs groupId="pm-manual">
+  <TabItem value="yarn" label="Yarn" default>
+
+```bash
+# Android
+yarn dota bundle --platform android
+
+# iOS
+yarn dota bundle --platform ios
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm / npx">
+
+```bash
+# Android
+npx dota bundle --platform android
+
+# iOS
+npx dota bundle --platform ios
+```
+
+  </TabItem>
+</Tabs>
+
+### CLI Options
+
+Customize with available flags:
+
+```bash
+Options:
+  --platform <platform>       Specify platform: android or ios (required)
+  --bundle-path <path>        Directory to place the bundle in, default is .dota/<platform> (default: ".dota")
+  --assets-path <path>        Directory to place assets in, default is .dota/<platform> (default: ".dota")
+  --sourcemap-path <path>     Directory to place sourcemaps in, default is .dota/<platform> (default: ".dota")
+  --make-sourcemap            Generate sourcemap (default: false)
+  --entry-file <file>         Entry file (default: "index.ts")
+  --dev <boolean>             Development mode (default: "false")
+  --base-bundle-path <path>   Path to base bundle for Hermes bytecode optimization
+  -h, --help                  Display help for command
+```
+
+#### Example with Options
+
+This will generate bundle in `./custom-path/android/index.android.bundle` and assets in `./.dota/android/assets/`
+
+```bash
+yarn dota bundle --platform android --bundle-path ./custom-path
+```
+
+#### Example with Sourcemap
+
+This will generate bundle and sourcemap in `./.dota/android/`
+```bash
+yarn dota bundle --platform android --make-sourcemap

@@ -1,15 +1,18 @@
 ---
 sidebar_position: 3
 id: patch-update-guide
-title: Send Your First Patch Update
+title: Ship Your First Patch Bundle
 ---
 
-# Send Your First Patch Update
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Ship Your First Patch Bundle
 
 This guide will walk you through creating and deploying your first **patch update** (differential update). Patch updates only send the differences between two bundles, resulting in significantly smaller download sizes and faster updates for your users.
 
 :::tip Estimated Time
-⏱️ **15-20 minutes** (assumes you already have DOTA set up)
+⏱️ **15-20 minutes** (assumes you already have [DOTA set up](/dota/full-setup))
 :::
 
 ---
@@ -33,8 +36,8 @@ A **patch update** (also called a differential update) contains only the **diffe
 ### Size Comparison Example
 
 ```
-Full Bundle Update:    23.1 MB → 8.14 MB (with Brotli compression)
-Patch Bundle Update:   23.1 MB → 2.3 MB (90% smaller!)
+Full Bundle Update:    23.1 MB → 8.14 MB
+Patch Bundle Update:   23.1 MB → 2.3 MB (90% smaller🔥)
 ```
 
 ### When to Use Patch Updates
@@ -59,12 +62,12 @@ Before starting, ensure you have:
 
 - ✅ DOTA Server running
 - ✅ CLI installed and authenticated
-- ✅ Your React Native app with DOTA SDK integrated
+- ✅ Your React Native app with DOTA SDK integrated (`@d11/dota >= v1.1.0`)
 - ✅ At least one previous release deployed (the "old" bundle)
 - ✅ Made code changes for the new version
 
 :::info Already Set Up?
-If you haven't completed the initial setup, follow the [Full Setup Guide](/full-setup) first.
+If you haven't completed the initial setup, follow the [Full Setup Guide](/dota/full-setup) first.
 :::
 
 ---
@@ -73,15 +76,9 @@ If you haven't completed the initial setup, follow the [Full Setup Guide](/full-
 
 Before making changes, you need to save your current bundle as the "old" version.
 
-**1.1 Generate Your Current Bundle**
+**1.1 Prepare the current (base) bundle**
 
-```bash
-# For iOS
-npx dota bundle --platform ios
-
-# For Android
-npx dota bundle --platform android
-```
+If you completed [bundle setup](/dota/full-setup#step-5-generate-your-javascript-bundle) in the [Full Setup Guide](/dota/full-setup), each Release build copies the currently shipped bundle to the `.dota/<platform>` folder. This becomes the base for generating your patch.
 
 **1.2 Create a Backup Directory**
 
@@ -91,15 +88,22 @@ mkdir -p .dota-versions
 
 **1.3 Copy Current Bundle as "Old Version"**
 
-**For iOS:**
+<Tabs groupId="platform-copy">
+  <TabItem value="ios" label="iOS" default>
+
 ```bash
 cp -r .dota/ios .dota-versions/v1.0.0-ios
 ```
 
-**For Android:**
+  </TabItem>
+  <TabItem value="android" label="Android">
+
 ```bash
 cp -r .dota/android .dota-versions/v1.0.0-android
 ```
+
+  </TabItem>
+</Tabs>
 
 :::tip Version Naming
 Use semantic versioning in your backup folder names (e.g., `v1.0.0`, `v1.1.0`) to keep track easily.
@@ -127,31 +131,32 @@ Make your desired changes, for example:
 
 Run your app in Release mode to verify:
 
-```bash
-# iOS
-npx react-native run-ios --configuration Release
+<Tabs groupId="platform-run">
+  <TabItem value="ios" label="iOS" default>
 
-# Android
-cd android && ./gradlew assembleRelease
+```bash
+yarn ios --mode=Release
 ```
+
+  </TabItem>
+  <TabItem value="android" label="Android">
+
+```bash
+yarn android --mode=Release
+```
+
+  </TabItem>
+</Tabs>
 
 ---
 
 ## Step 3: Generate New Bundle (After Changes)
 
-Generate a fresh bundle with your new code.
+New bundle will automatically be updated in the respective platform directory `.dota/ios/` (iOS) and `.dota/android/` (Android).
 
-**For iOS:**
-```bash
-npx dota bundle --platform ios
-```
-
-**For Android:**
-```bash
-npx dota bundle --platform android
-```
-
-This creates the updated bundle in `.dota/ios/` or `.dota/android/`
+:::tip Smaller Patches
+Enable [Base Bytecode Optimization](/dota/sdk/base-bytecode-optimization) before generating the new bundle to reduce patch size further.
+:::
 
 ---
 
@@ -161,23 +166,30 @@ Now create the patch that contains only the differences.
 
 ### 4.1 Use CLI to Create Patch
 
-**For iOS:**
+<Tabs groupId="platform-create-patch">
+  <TabItem value="ios" label="iOS" default>
+
 ```bash
-code-push-standalone create-patch \
+yarn code-push-standalone create-patch \
   ./.dota-versions/v1.0.0-ios \
   ./.dota/ios \
   ./.dota/patches/ios
 ```
 
-**For Android:**
+  </TabItem>
+  <TabItem value="android" label="Android">
+
 ```bash
-code-push-standalone create-patch \
+yarn code-push-standalone create-patch \
   ./.dota-versions/v1.0.0-android \
   ./.dota/android \
   ./.dota/patches/android
 ```
 
-### Command Breakdown
+  </TabItem>
+</Tabs>
+
+**Command Breakdown**
 
 - **First argument**: Path to old bundle (before changes)
 - **Second argument**: Path to new bundle (after changes)
@@ -192,7 +204,11 @@ ls -lh .dota/patches/ios
 ls -lh .dota/patches/android
 ```
 
-You should see the patch files created.
+You should see the patch file (`bundle.patch`) created.
+
+### 4.3 Include Assets
+
+Make sure to copy all `assets` generated inside `./.dota/<platform>` to new `.dota/patches/<platform>` directory. This will ensure correct asset loading.
 
 :::success Patch Created
 ✅ Your differential patch bundle has been generated!
@@ -210,23 +226,30 @@ Patch updates can **only** be deployed via CLI, not through the Web Panel.
 
 ### 5.1 Deploy to Staging First
 
-**For iOS:**
+<Tabs groupId="platform-release-patch">
+  <TabItem value="ios" label="iOS" default>
+
 ```bash
-code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
+yarn code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
   --deploymentName Staging \
   --description "Bug fixes (patch update)" \
   --isPatch true \
   --compression brotli
 ```
 
-**For Android:**
+  </TabItem>
+  <TabItem value="android" label="Android">
+
 ```bash
-code-push-standalone release MyApp-Android ./.dota/patches/android "1.0.0" \
+yarn code-push-standalone release MyApp-Android ./.dota/patches/android "1.0.0" \
   --deploymentName Staging \
   --description "Bug fixes (patch update)" \
   --isPatch true \
   --compression brotli
 ```
+
+  </TabItem>
+</Tabs>
 
 ### Important Flags
 
@@ -240,23 +263,13 @@ code-push-standalone release MyApp-Android ./.dota/patches/android "1.0.0" \
 Always use `--isPatch true` when deploying a patch bundle. Without this flag, the deployment will fail or behave incorrectly.
 :::
 
-### 5.2 Include Assets
-
-If your update includes new or modified assets, make sure to include them:
-
-```bash
-# Copy assets to patch directory
-cp -r .dota/ios/assets .dota/patches/ios/
-# Then deploy with the patch
-```
-
 ---
 
 ## Step 6: Test the Patch Update
 
 **6.1 Restart Your App**
 
-Close and reopen your test app that's using the Staging deployment key.
+Close and reopen the test app that uses the Staging deployment key. Rebuild the app with your original (pre‑change) code so it ships the old bundle; the patch will then apply on launch.
 
 **6.2 Monitor Download**
 
@@ -268,6 +281,29 @@ The patch update is significantly smaller, so you should see:
 **6.3 Verify Changes Applied**
 
 After the app restarts, confirm your code changes are visible.
+
+Use `codePush.sync` to observe patch-related status events (see [API Reference → sync](/dota/sdk/api-reference#sync)) and impact on download size:
+
+```javascript
+codePush.sync(
+  {},
+  (status) => {
+    switch (status) {
+      case codePush.SyncStatus.PATCH_APPLIED_SUCCESS:
+        // Patch applied successfully
+        break;
+      case codePush.SyncStatus.UPDATE_INSTALLED:
+        // Update installed; activation depends on installMode
+        break;
+    }
+  },
+  ({ receivedBytes, totalBytes }) => {
+    console.log(`Downloaded ${receivedBytes} of ${totalBytes} bytes`);
+  }
+);
+```
+
+For the full list of statuses, see [SyncStatus](/dota/sdk/api-reference#syncstatus).
 
 **6.4 Check Dashboard**
 
@@ -289,13 +325,13 @@ After testing successfully in Staging, promote to Production.
 **7.1 Promote via CLI**
 
 ```bash
-code-push-standalone promote MyApp-iOS Staging Production
+yarn code-push-standalone promote MyApp-iOS Staging Production
 ```
 
 **Or deploy directly to Production:**
 
 ```bash
-code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
+yarn code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
   --deploymentName Production \
   --description "Bug fixes (patch update)" \
   --isPatch true \
@@ -307,7 +343,7 @@ code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
 For production patches, consider gradual rollout:
 
 ```bash
-code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
+yarn code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
   --deploymentName Production \
   --isPatch true \
   --compression brotli \
@@ -374,7 +410,7 @@ Always test patch updates in Staging before Production:
 ... --deploymentName Staging --isPatch true
 
 # Then promote
-code-push-standalone promote MyApp Staging Production
+yarn code-push-standalone promote MyApp Staging Production
 ```
 
 ### 4. Document Your Patches
@@ -391,7 +427,7 @@ DOTA automatically falls back to full bundle if patch application fails. Always 
 
 ```bash
 # If issues arise, deploy a full bundle
-code-push-standalone release MyApp ./.dota/ios "1.0.0" \
+yarn code-push-standalone release MyApp ./.dota/ios "1.0.0" \
   --deploymentName Production \
   --isPatch false \
   --mandatory
@@ -407,32 +443,32 @@ Here's a repeatable workflow for your team:
 
 ```bash
 # 1. Save current bundle (before changes)
-npx dota bundle --platform ios
 cp -r .dota/ios .dota-versions/v1.0.0-ios
 
 # 2. Make your code changes
 # (edit your React Native code)
 
-# 3. Generate new bundle (after changes)
-npx dota bundle --platform ios
+# 3. Generate new bundle (after changes). Created during build process
 
 # 4. Create patch
-code-push-standalone create-patch \
+yarn code-push-standalone create-patch \
   ./.dota-versions/v1.0.0-ios \
   ./.dota/ios \
   ./.dota/patches/ios
 
-# 5. Deploy patch to staging
-code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
+# 5. Include Assets
+
+# 6. Deploy patch to staging
+yarn code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
   -d Staging \
   --isPatch true \
   --compression brotli \
   -des "v1.0.1: Bug fixes"
 
-# 6. Test in staging
+# 7. Test in staging
 
-# 7. Promote to production
-code-push-standalone promote MyApp-iOS Staging Production
+# 8. Promote to production
+yarn code-push-standalone promote MyApp-iOS Staging Production
 ```
 
 ---
@@ -445,6 +481,7 @@ code-push-standalone promote MyApp-iOS Staging Production
 - Old bundle path is incorrect
 - New bundle path is incorrect
 - Bundles are identical (no changes)
+- Base bundle mismatch: the patch was generated against a different base than the bundle shipped in the installed app (commonly happens if build‑time bundle copy was skipped in favor of manual generation).
 
 **Solution:**
 ```bash
@@ -452,8 +489,7 @@ code-push-standalone promote MyApp-iOS Staging Production
 ls .dota-versions/v1.0.0-ios
 ls .dota/ios
 
-# Ensure bundles are different
-diff .dota-versions/v1.0.0-ios/main.jsbundle .dota/ios/main.jsbundle
+# Use Build Time Bundle generation way
 ```
 
 ### Patch Deployment Fails
@@ -466,7 +502,7 @@ diff .dota-versions/v1.0.0-ios/main.jsbundle .dota/ios/main.jsbundle
 **Solution:**
 ```bash
 # Always include --isPatch true
-code-push-standalone release MyApp ./.dota/patches/ios "1.0.0" \
+yarn code-push-standalone release MyApp ./.dota/patches/ios "1.0.0" \
   --isPatch true \
   --compression brotli
 ```
@@ -512,55 +548,9 @@ create-patch v1.0.1 → v1.0.2
 release v1.1.0 --isPatch false
 ```
 
-### Automated Patch Pipeline
-
-**Example CI/CD Script:**
-
-```yaml
-# .github/workflows/deploy-patch.yml
-- name: Generate Bundle
-  run: npx dota bundle --platform ios
-
-- name: Create Patch
-  run: |
-    code-push-standalone create-patch \
-      ./previous-bundle \
-      ./.dota/ios \
-      ./.dota/patches/ios
-
-- name: Deploy Patch
-  run: |
-    code-push-standalone release MyApp-iOS ./.dota/patches/ios "$VERSION" \
-      --deploymentName Staging \
-      --isPatch true \
-      --compression brotli \
-      --description "Automated patch deployment"
-```
-
 ---
 
 ## Quick Reference
-
-### Essential Commands
-
-```bash
-# Save old bundle
-cp -r .dota/ios .dota-versions/v1.0.0-ios
-
-# Generate new bundle
-npx dota bundle --platform ios
-
-# Create patch
-code-push-standalone create-patch OLD_PATH NEW_PATH OUTPUT_PATH
-
-# Deploy patch
-code-push-standalone release APP PATCH_PATH VERSION \
-  --isPatch true \
-  --compression brotli
-
-# Promote patch
-code-push-standalone promote APP Staging Production
-```
 
 ### File Structure
 
@@ -610,141 +600,12 @@ Before deploying patches to production:
 - [ ] Monitoring is enabled
 
 ---
-
-## What's Next?
-
-### 🚀 Advanced Topics
-
-- **[Automated Patch Workflows](/cli/ci-cd-integration)** - CI/CD integration
-- **[Compression Strategies](/cli/release-management)** - Optimize bundle sizes
-- **[Version Management](/sdk/releasing-updates)** - Semantic versioning
-- **[Binary Diff Details](https://github.com/ds-horizon/delivr-cli/blob/main/bsdiff/README.md)** - How patches work
-
-### 📊 Monitoring
-
-- **[Release Metrics](/web-panel/overview)** - Track patch adoption
-- **[Performance Monitoring](/sdk/debugging)** - Measure update speed
-- **[Error Tracking](/sdk/debugging)** - Catch patch issues early
-
-### 🔧 Optimization
-
-- Use **Brotli compression** for best results
-- Create patches for **minor updates** only
-- Keep **version history** organized
-- Implement **automated testing** for patches
-
----
-
-## Tips for Success
-
-### 💡 Pro Tips
-
-**1. Organize Your Versions**
-```bash
-# Use clear version naming
-.dota-versions/
-├── v1.0.0-ios/
-├── v1.0.1-ios/  # patch from v1.0.0
-├── v1.0.2-ios/  # patch from v1.0.1
-└── v1.1.0-ios/  # full bundle (major update)
-```
-
-**2. Automate Bundle Backups**
-
-Add to your `package.json`:
-
-```json
-{
-  "scripts": {
-    "backup:ios": "cp -r .dota/ios .dota-versions/$(node -p \"require('./package.json').version\")-ios",
-    "backup:android": "cp -r .dota/android .dota-versions/$(node -p \"require('./package.json').version\")-android"
-  }
-}
-```
-
-**3. Test Patch Size**
-
-```bash
-# Check patch size before deploying
-du -sh .dota/patches/ios
-du -sh .dota/ios  # Compare with full bundle
-```
-
-**4. Document Each Patch**
-
-Maintain a changelog:
-
-```markdown
-## v1.0.1 (Patch from v1.0.0)
-- Fixed login crash
-- Improved error messages
-- Patch size: 2.3 MB (vs 8.1 MB full)
-```
-
----
-
-## Common Scenarios
-
-### Scenario 1: Hotfix for Production
-
-```bash
-# 1. Save current production bundle
-cp -r .dota/ios .dota-versions/v1.0.0-ios
-
-# 2. Fix the bug in code
-
-# 3. Generate new bundle
-npx dota bundle --platform ios
-
-# 4. Create patch
-code-push-standalone create-patch \
-  .dota-versions/v1.0.0-ios \
-  .dota/ios \
-  .dota/patches/ios
-
-# 5. Deploy immediately to production as mandatory
-code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
-  --deploymentName Production \
-  --isPatch true \
-  --mandatory \
-  --compression brotli \
-  --description "Critical hotfix"
-```
-
-### Scenario 2: Feature Flag Toggle
-
-```bash
-# Small change to enable feature
-# Create and deploy patch to 10% of users
-
-code-push-standalone release MyApp-iOS ./.dota/patches/ios "1.0.0" \
-  --deploymentName Production \
-  --isPatch true \
-  --rollout 10 \
-  --compression brotli
-```
-
-### Scenario 3: Sequential Patches
-
-```bash
-# v1.0.0 → v1.0.1 (patch)
-create-patch v1.0.0 v1.0.1 → deploy
-
-# Save v1.0.1
-cp -r .dota/ios .dota-versions/v1.0.1-ios
-
-# v1.0.1 → v1.0.2 (another patch)
-create-patch v1.0.1 v1.0.2 → deploy
-```
-
----
-
 ## Need Help?
 
 - 📖 **[Binary Diff Implementation](https://github.com/ds-horizon/delivr-cli/blob/main/bsdiff/README.md)** - Technical details
-- 🐛 **[Debugging Guide](/sdk/debugging)** - Troubleshoot issues
-- 💬 **[CLI Reference](/cli/release-management)** - All CLI options
-- 🚀 **[Release Management](/sdk/releasing-updates)** - Best practices
+- 🐛 **[Debugging Guide](/dota/sdk/debugging)** - Troubleshoot issues
+- 💬 **[CLI Reference](/dota/cli/release-management)** - All CLI options
+- 🚀 **[Release Management](/dota/sdk/releasing-updates)** - Best practices
 
 ---
 

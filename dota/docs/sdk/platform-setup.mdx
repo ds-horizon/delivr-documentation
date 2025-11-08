@@ -1,0 +1,244 @@
+---
+sidebar_position: 3
+---
+
+# Platform Setup
+
+Complete the platform-specific setup to enable DOTA updates in your app.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs groupId="platform">
+  <TabItem value="android" label="Android" default>
+
+## Android Setup
+
+In order to integrate DOTA into your Android project, perform the following steps:
+
+1. Edit `android/settings.gradle` and add the DOTA module:
+
+```gradle
+// ...
+include ':app', ':d11_dota'
+project(':d11_dota').projectDir = new File(rootProject.projectDir, '../node_modules/@d11/dota/android/app')
+```
+
+2. In `android/app/build.gradle`, add the dependency:
+
+```gradle
+dependencies {
+    // ...
+    implementation project(':d11_dota')
+    // ...
+}
+```
+
+3. In `android/app/build.gradle`, apply the DOTA build tasks at the end of the file:
+
+```gradle
+// ...
+apply from: "../../node_modules/@d11/dota/android/codepush.gradle"
+// ...
+```
+
+4. Update `MainApplication` to use DOTA:
+
+<Tabs groupId="android-language">
+  <TabItem value="kotlin" label="RN 0.73+ (Kotlin)" default>
+
+```kotlin
+// 1. Import the plugin class.
+import com.microsoft.codepush.react.CodePush
+
+class MainApplication : Application(), ReactApplication {
+  override val reactNativeHost: ReactNativeHost =
+    object : DefaultReactNativeHost(this) {
+      // ...
+
+      // 2. Add DOTA package for manual linking
+      add(
+        CodePush.getInstance(
+          resources.getString(R.string.CodePushDeploymentKey),
+          applicationContext,
+          BuildConfig.DEBUG
+        )
+      )
+
+      // 3. Let DOTA determine the JS bundle location on each start
+      override fun getJSBundleFile(): String {
+        return CodePush.getJSBundleFile()
+      }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="java" label="RN 0.72 and below (Java)">
+
+```java
+// 1. Import the plugin class.
+import com.microsoft.codepush.react.CodePush;
+
+public class MainApplication extends Application implements ReactApplication {
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    // ...
+
+    // 2. Add DOTA package for manual linking
+    packages.add(CodePush.getInstance(
+      getResources().getString(R.string.CodePushDeploymentKey),
+      getApplicationContext(),
+      BuildConfig.DEBUG
+    ));
+
+    // 3. Let DOTA determine the JS bundle location on each start
+    @Override
+    protected String getJSBundleFile() {
+      return CodePush.getJSBundleFile();
+    }
+  };
+}
+```
+
+  </TabItem>
+</Tabs>
+
+5. Add the deployment key and server URL to `strings.xml`:
+
+```xml
+<resources>
+    <!-- ... -->
+    <string moduleConfig="true" name="CodePushDeploymentKey">DeploymentKey</string>
+    <string moduleConfig="true" name="CodePushServerUrl">https://dota-sdk.delivr.live/</string>
+</resources>
+```
+
+6. Disable autolinking for `@d11/dota` by creating `react-native.config.js` at the app root:
+
+```javascript
+module.exports = {
+  dependencies: {
+    '@d11/dota': {
+      platforms: {
+        android: null,
+      },
+    },
+  },
+};
+```
+
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+
+## iOS Setup
+
+Once you've added the DOTA plugin, integrate it into your Xcode project.
+
+<Tabs groupId="ios-language">
+  <TabItem value="objc" label="Objective‑C" default>
+
+1. Install CocoaPods dependencies:
+
+```bash
+cd ios && pod install && cd ..
+```
+
+2. In `AppDelegate.m`, import DOTA headers:
+
+```objectivec
+#import <CodePush/CodePush.h>
+```
+
+3. Find the production JS source URL and replace it with DOTA:
+
+```objectivec
+return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+```
+
+→ Replace with:
+
+```objectivec
+return [CodePush bundleURL];
+```
+
+4. Use DOTA only for release builds:
+
+```objectivec
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+{
+#if DEBUG
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
+#else
+  return [CodePush bundleURL];
+#endif
+}
+```
+
+5. Add deployment key and server URL to `Info.plist`:
+
+```xml
+<key>CodePushServerURL</key>
+<string>server-url</string>
+<key>CodePushDeploymentKey</key>
+<string>deployment-key</string>
+```
+
+  </TabItem>
+  <TabItem value="swift" label="Swift">
+
+1. Install CocoaPods dependencies:
+
+```bash
+cd ios && pod install && cd ..
+```
+
+2. In `AppDelegate.swift`, import CodePush:
+
+```swift
+import CodePush
+```
+
+3. Replace the production JS source URL with DOTA:
+
+```swift
+Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+```
+
+→ Replace with:
+
+```swift
+return CodePush.bundleURL()
+```
+
+4. Use DOTA only for release builds:
+
+```swift
+override func bundleURL() -> URL! {
+  #if DEBUG
+    return RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
+  #else
+    // Default behavior assumes "main.jsbundle"
+    return CodePush.bundleURL()
+    // If you embedded a differently named file:
+    // return CodePush.bundleURL(forResource: "mybundle")
+    // return CodePush.bundleURL(forResource: "mybundle", withExtension: "jsbundle")
+  #endif
+}
+```
+
+5. Add deployment key and server URL to `Info.plist`:
+
+```xml
+<key>CodePushServerURL</key>
+<string>https://dota-sdk.delivr.live/</string>
+<key>CodePushDeploymentKey</key>
+<string>deployment-key</string>
+```
+
+  </TabItem>
+</Tabs>
+
+  </TabItem>
+</Tabs>
+
+

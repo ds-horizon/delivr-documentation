@@ -1,0 +1,501 @@
+---
+sidebar_position: 7
+sidebar_label: API Reference
+---
+
+# API Reference
+
+This page lists all functions, callbacks, package objects, events, and enums for `@d11/dota`. For configuration options, see [Options & Configuration](/dota/sdk/options). It favors quick scanning over exhaustive prose and avoids duplicated code.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+## DOTA API Reference
+
+- [sync](#sync)
+- [checkForUpdate](#checkforupdate)
+- [getUpdateMetadata](#getupdatemetadata)
+- [notifyAppReady](#notifyappready)
+- [restartApp](#restartapp)
+- [allowRestart](#allowrestart)
+- [disallowRestart](#disallowrestart)
+- [clearUpdates](#clearupdates)
+
+### sync
+
+Synchronizes your app's JavaScript bundle and image assets with the latest release to the configured deployment. Unlike the `checkForUpdate` method, which simply checks for the presence of an update, and let's you control what to do next, sync handles the update check, download and installation experience for you.
+
+```ts
+function sync(
+  options?: SyncOptions,
+  syncStatusChangeCallback?: (status: SyncStatus) => void,
+  downloadProgressCallback?: (progress: DownloadProgress) => void,
+  handleBinaryVersionMismatchCallback?: (update: RemotePackage) => void,
+): Promise<SyncStatus>;
+```
+
+Examples:
+
+<Tabs groupId="sync-examples">
+  <TabItem value="silent" label="Silent" default>
+
+Silently keeps the app up-to-date; installs on the next restart.
+
+```javascript
+codePush.sync(); // keep in sync silently; install on next restart
+```
+
+  </TabItem>
+  <TabItem value="dialog" label="Interactive">
+
+Prompts the user, then installs immediately after download.
+
+```javascript
+codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+```
+
+  </TabItem>
+  <TabItem value="hooks" label="Hooks">
+
+Subscribe to status changes and download progress to drive your own UI.
+
+```javascript
+codePush.sync(
+  {},
+  (status) => { /* see SyncStatus below */ },
+  ({ receivedBytes, totalBytes }) => { /* show progress */ },
+);
+```
+
+  </TabItem>
+</Tabs>
+
+#### SyncOptions
+
+`sync` accepts the same configuration as [`CodePushOptions`](/dota/sdk/usage), except `checkFrequency` (not applicable to a one‑off call). Use it to override defaults for a specific run:
+
+- `deploymentKey` (string) – see [Deployment Keys](/dota/sdk/usage#deployment-keys).
+- `installMode` (codePush.InstallMode) – see [Install Modes](/dota/sdk/usage#install-modes).
+- `mandatoryInstallMode` (codePush.InstallMode) – see [Mandatory Install Mode](/dota/sdk/usage#mandatory-install-mode).
+- `minimumBackgroundDuration` (number) – see [Install Modes](/dota/sdk/usage#install-modes).
+- `updateDialog` (UpdateDialogOptions) – see [Update Dialog](/dota/sdk/usage#update-dialog).
+
+Option examples:
+
+```javascript
+// Use a specific deployment key for this call
+codePush.sync({ deploymentKey: 'KEY' });
+
+// Install on next resume, only if app was backgrounded for ≥ 5 minutes
+codePush.sync({
+  installMode: codePush.InstallMode.ON_NEXT_RESUME,
+  minimumBackgroundDuration: 60 * 5,
+});
+
+// Install mandatory updates on next resume (optionals follow installMode)
+codePush.sync({ mandatoryInstallMode: codePush.InstallMode.ON_NEXT_RESUME });
+
+// Customize the interactive dialog and install immediately if accepted
+codePush.sync({
+  updateDialog: {
+    title: 'An update is available!',
+    appendReleaseDescription: true,
+    descriptionPrefix: '\n\nChange log:\n',
+  },
+  installMode: codePush.InstallMode.IMMEDIATE,
+});
+```
+
+#### Callbacks
+
+Optionally subscribe to the lifecycle of `sync` to drive UI.
+
+**syncStatusChangeCallback**
+
+Fires when the sync process moves between stages. Use it to show "checking", "downloading", or "installing" UI, or to react when an update installs.
+
+SyncStatus values: see the full table in [Enums → SyncStatus](#syncstatus).
+
+Example:
+
+```javascript
+codePush.sync(
+  { updateDialog: true },
+  (status) => {
+    switch (status) {
+      case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+        // show downloading UI
+        break;
+      case codePush.SyncStatus.INSTALLING_UPDATE:
+        // hide downloading UI
+        break;
+    }
+  }
+);
+```
+
+**downloadProgressCallback(progress)**
+
+Called periodically while downloading. Use `receivedBytes` and `totalBytes` to update a progress bar or percentage.
+
+```javascript
+codePush.sync(
+  {},
+  undefined,
+  ({ receivedBytes, totalBytes }) => {
+    const percent = Math.floor((receivedBytes / totalBytes) * 100);
+    // update progress UI with percent
+  }
+);
+```
+
+**handleBinaryVersionMismatchCallback(update)**
+
+Called when the available update targets a different binary app version (e.g., native upgrade required). Typically, you would direct the user to update from the store, or handle it with your own messaging. See also [`checkForUpdate`](#checkforupdate).
+
+#### Return value
+
+Resolves to a `SyncStatus` code indicating why `sync` succeeded:
+
+- `UP_TO_DATE` – app is already up‑to‑date.
+- `UPDATE_INSTALLED` – update installed (applies per install mode).
+- `UPDATE_IGNORED` – optional update was ignored (only with `updateDialog`).
+- `SYNC_IN_PROGRESS` – another sync is already running.
+
+### allowRestart
+
+```javascript
+codePush.allowRestart(): void;
+```
+
+:::info At a glance
+- Purpose: Re‑enable programmatic restarts previously blocked via [`disallowRestart`](#disallowrestart).
+- Effect: Immediately performs a queued restart if one was requested while restarts were disallowed.
+- Pairs with: [`disallowRestart`](#disallowrestart), [`restartApp`](#codepushrestartapp).
+:::
+
+Triggers an immediate restart now if, during the disallowed period, any of the below occurred:
+
+- An update installed with `InstallMode.IMMEDIATE`
+- An update installed with `InstallMode.ON_NEXT_RESUME` and the app resumed (respecting `minimumBackgroundDuration`)
+- Your code called `restartApp()`
+
+No restart occurs if:
+
+- No updates were installed since `disallowRestart()`
+- A pending update used `InstallMode.ON_NEXT_RESTART` (no programmatic restart needed)
+- A pending update used `InstallMode.ON_NEXT_RESUME` but the app hasn’t been backgrounded/resumed yet
+- No `restartApp()` calls happened during the disallowed window
+
+This ensures calling `allowRestart()` only restarts when a restart was explicitly requested while restarts were disabled. Conceptually similar to `restartApp(true)`, except it only restarts if a queued restart exists.
+
+See [`disallowRestart`](#disallowrestart) for a usage example.
+
+### checkForUpdate
+
+```ts
+function checkForUpdate(
+  deploymentKey?: string | null,
+  handleBinaryVersionMismatchCallback?: (update: RemotePackage) => void,
+): Promise<RemotePackage | null>;
+```
+
+:::info At a glance
+- Purpose: Check if the configured deployment has an update available.
+- Default: Uses deployment key from native config; override with the `deploymentKey` param.
+- Returns: `RemotePackage | null`.
+- See also: [Deployment Keys](/dota/sdk/usage#deployment-keys), [Package objects → RemotePackage](#remotepackage).
+:::
+
+Parameters:
+
+- `deploymentKey` (string | null) – override the native deployment key for this call (e.g., early access toggles).
+- `handleBinaryVersionMismatchCallback(update: RemotePackage)` – invoked if the latest release targets a different binary version; use to inform users a store update is required.
+
+Queries DOTA to see if the configured deployment has an update available. By default, uses the deployment key from native config (iOS `Info.plist`, Android `strings.xml` / app). Pass `deploymentKey` to override (e.g., early‑access toggles).
+
+Binary version mismatch callback:
+
+`handleBinaryVersionMismatchCallback` (optional) fires when the latest release targets a different binary version than the one currently installed. In this case, DOTA will ignore the code update (it cannot apply against your current native binaries).
+
+- Example: the device runs binary 1.0.1 (label `v1`). A new release targets binary 1.0.2 (native changes). `checkForUpdate` will NOT return that code update for 1.0.1. Instead, this callback receives the `RemotePackage` so you can inform the user that a store update is required.
+
+:::caution iOS review
+Avoid gating features with forced alerts or interactions inside this callback. App Store guidelines disallow forcing users to rate/review/download other apps or take similar actions to access functionality.
+:::
+
+Returns:
+
+- `null` when no update is applicable. Common reasons:
+  - No releases in the deployment
+  - Latest release targets a different binary version
+  - The device already has the latest release
+  - Latest release is disabled
+  - Release is in an active rollout and the device is outside the rollout percentage
+- `RemotePackage` when an update is available – see [Package objects → RemotePackage](#remotepackage)
+
+Example:
+
+```javascript
+codePush.checkForUpdate()
+  .then((update) => {
+    if (!update) {
+      console.log('The app is up to date!');
+    } else {
+      console.log('An update is available! Should we download it?');
+    }
+  });
+```
+
+### disallowRestart
+
+```javascript
+codePush.disallowRestart(): void;
+```
+
+:::info At a glance
+- Purpose: Prevent programmatic restarts during critical flows (e.g., onboarding, checkout).
+- Effect: Restarts are queued until `allowRestart()` is called.
+- Pairs with: [`allowRestart`](#codepushallowrestart), [`restartApp`](#codepushrestartapp), [Install Modes](/dota/sdk/usage#install-modes).
+:::
+
+Blocks restarts triggered by:
+
+- `InstallMode.IMMEDIATE`
+- `InstallMode.ON_NEXT_RESUME` when the app resumes (subject to `minimumBackgroundDuration`)
+- Explicit calls to `restartApp()`
+
+Behavior:
+
+- Updates can still be checked, downloaded, and installed.
+- Any restart attempts are queued and only applied after `allowRestart()`.
+
+When to use:
+
+- Onboarding, authentication, payments, or any flow where interruptions are unacceptable.
+
+:::tip Alternative
+Use `InstallMode.ON_NEXT_RESTART` on `sync()` to avoid programmatic restarts altogether, and call `restartApp()` yourself at safe points.
+:::
+
+Example:
+
+```javascript
+import React, { useEffect } from 'react';
+import codePush from '@d11/dota';
+
+function OnboardingProcess() {
+  useEffect(() => {
+    // Prevent restarts while onboarding is visible
+    codePush.disallowRestart();
+    return () => {
+      // Re‑allow restarts (and flush any queued restart)
+      codePush.allowRestart();
+    };
+  }, []);
+
+  return null;
+}
+```
+
+### getUpdateMetadata
+
+```ts
+function getUpdateMetadata(
+  updateState?: UpdateState, // default: UpdateState.RUNNING
+): Promise<LocalPackage | null>;
+```
+
+:::info At a glance
+- Purpose: Retrieve metadata (e.g., description, mandatory, label) for a running or pending DOTA update.
+- Default: Without args, returns the currently running update (if any).
+- See also: [UpdateState](#updatestate), [LocalPackage](#localpackage).
+:::
+
+Retrieves metadata for an installed update whose state matches `updateState`. Useful for displaying a “What’s new?” dialog after activation or checking whether an update is pending (awaiting resume/restart).
+
+Returns:
+
+- `null` if no update for the requested state exists. Common cases:
+  - No DOTA updates have ever been installed on this device
+  - A store (binary) update was installed, which clears previous DOTA updates
+  - `UpdateState.RUNNING` requested but the app is currently running the binary bundle (no DOTA update active)
+  - `UpdateState.PENDING` requested but there is no pending update
+- `LocalPackage` with metadata for the requested update
+
+Examples:
+
+```javascript
+// Running update: attach label to analytics / show What's new
+const running = await codePush.getUpdateMetadata(); // default: RUNNING
+if (running) {
+  console.log('Running DOTA update label:', running.label);
+}
+
+// Pending update: decide whether to restart now
+const pending = await codePush.getUpdateMetadata(codePush.UpdateState.PENDING);
+if (pending) {
+  // e.g., prompt user or programmatically restart when safe
+}
+```
+
+### notifyAppReady
+
+```ts
+function notifyAppReady(): Promise<void>;
+```
+
+:::info At a glance
+- Purpose: Mark the freshly installed update as successful so it won’t auto‑rollback.
+- Required when: You manage install flow yourself (not using `sync` at app start).
+- Not needed when: You use `sync` during app start — it calls this for you.
+:::
+
+Notifies DOTA that the current update launched successfully. If you don’t call this for a newly installed update (and aren’t using `sync` at startup), the runtime will assume the update failed and automatically roll back on next launch — protecting users from a broken update.
+
+```javascript
+await codePush.notifyAppReady();
+```
+
+Alias: `notifyApplicationReady` (backwards compatibility).
+
+### restartApp
+
+```ts
+function restartApp(onlyIfUpdateIsPending?: boolean): void;
+```
+
+:::info At a glance
+- Purpose: Programmatically restart the app.
+- Guard: `onlyIfUpdateIsPending = true` restarts only when an update is pending.
+- Pairs with: [Install Modes](/dota/sdk/usage#install-modes), [`disallowRestart`](#disallowrestart), [`allowRestart`](#allowrestart).
+:::
+
+When to use
+
+- You install updates with `ON_NEXT_RESTART` or `ON_NEXT_RESUME` and want to apply them at a specific, low‑impact moment (e.g., user returned to Home).
+- You want to avoid waiting for the OS/user restart/resume but still control timing.
+
+Examples
+
+```javascript
+// Restart immediately (regardless of pending updates)
+codePush.restartApp();
+
+// Restart only if an update is pending
+codePush.restartApp(true);
+```
+
+ 
+
+### clearUpdates
+
+```ts
+function clearUpdates(): void;
+```
+
+Clears all downloaded DOTA updates. Useful when switching to a different deployment which may have an older release than the current package.
+
+:::caution
+Avoid using this outside of deployment switching. DOTA clears updates automatically when needed; forcing it elsewhere can lead to unpredictable behavior.
+:::
+
+## Package objects
+
+Some methods return "package" objects which represent a DOTA code update and its metadata.
+
+### LocalPackage
+
+Represents a downloaded update that is already running, or installed and pending restart. Produced by `getUpdateMetadata` or by `RemotePackage.download()`.
+
+Properties:
+
+- `appVersion` (string) – binary app version this update depends on
+- `deploymentKey` (string) – key used to download this update
+- `description` (string) – release notes/description from the release
+- `failedInstall` (boolean) – this update was previously installed and rolled back
+- `isFirstRun` (boolean) – first launch after installing this update
+- `isMandatory` (boolean) – release marked as mandatory
+- `isPending` (boolean) – installed but not yet activated (awaiting resume/restart)
+- `label` (string) – DOTA label like `v5` unique within the deployment
+- `packageHash` (string) – SHA hash of the update
+- `packageSize` (number) – size in bytes
+
+Methods:
+
+```ts
+install(
+  installMode?: typeof codePush.InstallMode[keyof typeof codePush.InstallMode],
+  minimumBackgroundDuration?: number,
+): Promise<void>
+```
+
+Parameters:
+
+- **installMode**: when to apply the update. Default: `ON_NEXT_RESTART`.
+- **minimumBackgroundDuration**: used with `ON_NEXT_RESUME`; seconds the app must stay in background before applying.
+
+
+### RemotePackage
+
+Represents an available update on the DOTA server that hasn't been downloaded yet. Produced by `checkForUpdate`.
+
+Inherits all `LocalPackage` properties and adds:
+
+- `downloadUrl` (string) – direct URL for the update payload (usually not needed)
+
+Methods:
+
+```ts
+download(
+  downloadProgressCallback?: (progress: { totalBytes: number; receivedBytes: number }) => void,
+): Promise<LocalPackage>
+```
+
+Parameters:
+
+- **downloadProgressCallback**: optional callback to receive download progress as `{ totalBytes, receivedBytes }`.
+
+Returns:
+
+- `LocalPackage` with the downloaded update.
+
+## DOTA Events
+
+Use these callbacks to track update lifecycle and download progress. Pass them to [`sync`](#sync) to be notified of state changes and bytes downloaded. See [Enums → SyncStatus](#syncstatus) for status details. Helpful for analytics and monitoring major DOTA events.
+
+- `codePushStatusDidChange(status: SyncStatus)` – stage changes (checking, downloading, installing, etc.)
+- `codePushDownloadDidProgress({ totalBytes, receivedBytes })` – download progress
+
+## Enums
+
+### SyncStatus
+
+| Value | Code | Description |
+| --- | --- | --- |
+| UP_TO_DATE | 0 | App is fully up‑to‑date with the configured deployment |
+| UPDATE_INSTALLED | 1 | Update installed; activation depends on install mode |
+| UPDATE_IGNORED | 2 | Optional update ignored by user (only with `updateDialog`) |
+| UNKNOWN_ERROR | 3 | Unknown error occurred |
+| SYNC_IN_PROGRESS | 4 | Another sync is already running |
+| CHECKING_FOR_UPDATE | 5 | Contacting the DOTA server for an update |
+| AWAITING_USER_ACTION | 6 | Awaiting dialog interaction (only with `updateDialog`) |
+| DOWNLOADING_PACKAGE | 7 | Downloading the update from the server |
+| INSTALLING_UPDATE | 8 | Installing downloaded update |
+| UPDATE_IGNORED_ROLLBACK | 9 | Update ignored due to previous rollback |
+| UPDATE_AVAILABLE | 10 | Update available and about to download |
+| PATCH_APPLIED_SUCCESS | 11 | Patch bundle applied successfully |
+| DOWNLOAD_REQUEST_SUCCESS | 12 | Update downloaded successfully |
+| UNZIPPED_SUCCESS | 13 | Update unzipped successfully |
+| DECOMPRESSED_SUCCESS | 14 | Update decompressed successfully |
+
+### UpdateState
+
+| Value | Description |
+| --- | --- |
+| RUNNING | Update currently running |
+| PENDING | Installed, awaiting resume/restart |
+| LATEST | Latest available (running or pending) |
+
+
