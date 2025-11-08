@@ -370,7 +370,7 @@ If you're still stuck:
 
 ## Next Steps
 
-- [API Reference](/sdk/api-reference)
-- [Options](/sdk/options)
-- [CLI release management](/cli/release-management)
+- [API Reference](/dota/sdk/api-reference)
+- [Options](/dota/sdk/options)
+- [CLI release management](/dota/cli/release-management)
 

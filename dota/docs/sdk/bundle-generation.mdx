@@ -9,10 +9,6 @@ Before you can deploy OTA updates, you need to generate JavaScript bundles and a
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-:::tip Smaller Patches
-For even smaller patch bundles, enable [Base Bytecode Optimization](/dota/sdk/base-bytecode-optimization) (v1.2.0+).
-:::
-
 ## 1. Build-time Bundling (Recommended)
 
 This method integrates DOTA into your build process so bundles are created automatically.
@@ -128,3 +124,8 @@ yarn dota bundle --platform android --bundle-path ./custom-path
 This will generate bundle and sourcemap in `./.dota/android/`
 ```bash
 yarn dota bundle --platform android --make-sourcemap
+```
+
+:::tip Smaller Patches
+For even smaller patch bundles, enable [Base Bytecode Optimization](/dota/sdk/base-bytecode-optimization) (v1.2.0+).
+:::
