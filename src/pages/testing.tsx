@@ -1,5 +1,5 @@
-import React from 'react';
 import Layout from '@theme/Layout';
+import React from 'react';
 import styles from './coming-soon.module.css';
 
 export default function Testing(): React.JSX.Element {
@@ -58,7 +58,7 @@ export default function Testing(): React.JSX.Element {
             <a href="/dota/intro" className="button button--secondary button--lg">
               Explore DOTA
             </a>
-            <a href="https://github.com/ds-horizon" className="button button--secondary button--lg">
+            <a href="https://github.com/orgs/ds-horizon/repositories?q=delivr" className="button button--secondary button--lg">
               View on GitHub
             </a>
           </div>
