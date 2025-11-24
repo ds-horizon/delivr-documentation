@@ -57,7 +57,7 @@ export default function DOTA(): React.JSX.Element {
                 </Link>
                 <Link
                   className="button button--secondary button--lg"
-                  to="https://github.com/ds-horizon/delivr-sdk-ota">
+                  to="https://github.com/ds-horizon/delivr-documentation?tab=readme-ov-file#-useful-links">
                   View on GitHub
                 </Link>
               </div>
@@ -205,8 +205,8 @@ export default function DOTA(): React.JSX.Element {
               </Link>
               <Link
                 className="button button--secondary button--lg"
-                to="https://github.com/ds-horizon/delivr-sdk-ota">
-                View SDK on GitHub
+                to="https://github.com/ds-horizon/delivr-documentation?tab=readme-ov-file#-useful-links">
+                Explore on GitHub
               </Link>
             </div>
           </div>
