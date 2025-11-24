@@ -96,7 +96,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/ds-horizon',
+          href: 'https://github.com/ds-horizon/delivr-documentation?tab=readme-ov-file#-useful-links',
           label: 'GitHub',
           position: 'right',
         },
@@ -186,7 +186,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Delivr. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Horizon`,
     },
     prism: {
       theme: prismThemes.github,
