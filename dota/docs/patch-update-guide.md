@@ -601,7 +601,7 @@ Before deploying patches to production:
 ---
 ## Need Help?
 
-- 📖 **[Binary Diff Implementation](https://github.com/ds-horizon/delivr-cli/blob/main/bsdiff/README.md)** - Technical details
+- 📖 **[Binary Diff Implementation](https://github.com/ds-horizon/delivr/blob/main/delivr-cli/bsdiff/README.md)** - Technical details
 - 🐛 **[Debugging Guide](/dota/sdk/debugging)** - Troubleshoot issues
 - 💬 **[CLI Reference](/dota/cli/release-management)** - All CLI options
 - 🚀 **[Release Management](/dota/sdk/releasing-updates)** - Best practices

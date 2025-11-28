@@ -37,10 +37,23 @@ A powerful command-line tool for deploying updates from your terminal or CI/CD p
 
 ## Quick Start Guide
 
-1. **Install the SDK** in your React Native app
-2. **Set up the Server** (locally or in the cloud)
-3. **Create your app** in the Web Panel and generate deployment keys
-4. **Deploy updates** using the Web Panel or CLI
+### 🚀 Launch Everything (5 minutes)
+
+```bash
+git clone https://github.com/ds-horizon/delivr.git
+cd delivr
+chmod +x launch_script.sh
+./launch_script.sh
+```
+
+Then follow these steps:
+
+1. **Create your app** in the Web Panel (http://localhost:3000)
+2. **Install the SDK** in your React Native app
+3. **Generate deployment keys** and integrate them
+4. **Deploy updates** using the CLI or Web Panel
+
+**[📖 Complete Setup Guide →](/dota/full-setup)**
 
 ## Use Cases
 

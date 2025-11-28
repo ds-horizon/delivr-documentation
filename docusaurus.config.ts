@@ -96,7 +96,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/ds-horizon/delivr-documentation?tab=readme-ov-file#-useful-links',
+          href: 'https://github.com/ds-horizon/delivr-documentation',
           label: 'GitHub',
           position: 'right',
         },
@@ -152,23 +152,27 @@ const config: Config = {
           ],
         },
         {
-          title: 'Repositories',
+          title: 'Source Code',
           items: [
             {
+              label: 'Main Repository',
+              href: 'https://github.com/ds-horizon/delivr',
+            },
+            {
               label: 'SDK (React Native)',
-              href: 'https://github.com/ds-horizon/delivr-sdk-ota',
+              href: 'https://github.com/ds-horizon/delivr/tree/main/delivr-sdk-ota',
             },
             {
               label: 'Server (Backend)',
-              href: 'https://github.com/ds-horizon/delivr-server-ota',
+              href: 'https://github.com/ds-horizon/delivr/tree/main/delivr-server-ota',
             },
             {
               label: 'Web Panel',
-              href: 'https://github.com/ds-horizon/delivr-web-panel',
+              href: 'https://github.com/ds-horizon/delivr/tree/main/delivr-web-panel',
             },
             {
               label: 'CLI',
-              href: 'https://github.com/ds-horizon/delivr-cli',
+              href: 'https://github.com/ds-horizon/delivr/tree/main/delivr-cli',
             },
           ],
         },
@@ -181,7 +185,7 @@ const config: Config = {
             },
             {
               label: 'Report an Issue',
-              href: 'https://github.com/ds-horizon/delivr-sdk-ota/issues',
+              href: 'https://github.com/ds-horizon/delivr/issues',
             },
           ],
         },

@@ -1,7 +1,6 @@
-import React from 'react';
-import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
+import React from 'react';
 import styles from './dota.module.css';
 
 function SectionCard({icon, title, description, link, features}: {
@@ -57,7 +56,7 @@ export default function DOTA(): React.JSX.Element {
                 </Link>
                 <Link
                   className="button button--secondary button--lg"
-                  to="https://github.com/ds-horizon/delivr-documentation?tab=readme-ov-file#-useful-links">
+                  to="https://github.com/ds-horizon/delivr">
                   View on GitHub
                 </Link>
               </div>
@@ -205,7 +204,7 @@ export default function DOTA(): React.JSX.Element {
               </Link>
               <Link
                 className="button button--secondary button--lg"
-                to="https://github.com/ds-horizon/delivr-documentation?tab=readme-ov-file#-useful-links">
+                to="https://github.com/ds-horizon/delivr">
                 Explore on GitHub
               </Link>
             </div>
