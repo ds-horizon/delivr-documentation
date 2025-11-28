@@ -430,7 +430,7 @@ export default function Home(): React.JSX.Element {
               </Link>
               <Link
                 className="button button--secondary button--lg"
-                to="https://github.com/ds-horizon/delivr-documentation?tab=readme-ov-file#-useful-links">
+                to="https://github.com/ds-horizon/delivr">
                 Explore on GitHub
               </Link>
             </div>

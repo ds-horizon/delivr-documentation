@@ -96,7 +96,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/ds-horizon/delivr-documentation?tab=readme-ov-file#-useful-links',
+          href: 'https://github.com/ds-horizon/delivr-documentation',
           label: 'GitHub',
           position: 'right',
         },
