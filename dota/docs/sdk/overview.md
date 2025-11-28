@@ -39,7 +39,7 @@ To ensure users always have a working build, the DOTA client maintains a copy of
 
 ## Resources
 
-- [GitHub Repository](https://github.com/ds-horizon/delivr-sdk-ota)
+- [GitHub Repository](https://github.com/ds-horizon/delivr/tree/main/delivr-sdk-ota)
 - [API Reference](/dota/sdk/api-reference)
 - [Advanced Options](/dota/sdk/options)
 - [Troubleshooting Guide](/dota/sdk/debugging)

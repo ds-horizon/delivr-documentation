@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 This interactive guide will walk you through the entire process of setting up DOTA and sending your first OTA update. Follow these steps in order for a smooth experience.
 
 :::tip Estimated Time
-⏱️ **30-45 minutes** to complete the full setup
+⏱️ **5 minutes** with launch script or **30-45 minutes** with manual setup
 :::
 
 ---
@@ -21,31 +21,79 @@ This interactive guide will walk you through the entire process of setting up DO
 
 By the end of this guide, you will:
 
-- ✅ Have DOTA Server running locally or in the cloud
-- ✅ Have the Web Panel configured and accessible
+- ✅ Have DOTA Server & Web Panel running (via launch script or manual)
+- ✅ Have created your first app in the dashboard
 - ✅ Have DOTA SDK integrated into your React Native app
 - ✅ Have CLI installed and authenticated
 - ✅ Successfully deploy your first OTA update
 
 ---
 
-## Step 1: Set Up DOTA Server
+## 🚀 Quick Start (Recommended)
+
+The fastest way to get DOTA running is using the automated launch script.
+
+### Prerequisites
+
+- **Docker Desktop** - [Download & Install](https://docs.docker.com/get-docker/)
+- **Node.js 18+** - [Download](https://nodejs.org/)
+- **Git**
+
+### Launch Everything with One Script
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/ds-horizon/delivr.git
+cd delivr
+
+# 2. Run the launch script
+chmod +x launch_script.sh
+./launch_script.sh
+```
+
+**What the script does:**
+- ✅ Validates Docker is running
+- ✅ Checks for required .env files
+- ✅ Resolves port conflicts automatically
+- ✅ Starts DOTA Server (API + Database + Cache)
+- ✅ Waits for server health check
+- ✅ Starts Web Panel Dashboard
+
+**Access your services:**
+- 🌐 **Web Panel**: http://localhost:3000
+- 🔧 **API Server**: http://localhost:3010
+- 📊 **Health Check**: http://localhost:3010/healthcheck
+
+:::tip Success!
+If the script completes successfully, **skip to [Step 2: SDK Integration](#step-2-set-up-sdk-in-react-native-app)** to integrate DOTA into your mobile app.
+:::
+
+---
+
+## 📖 Manual Setup (Advanced)
+
+<details>
+<summary><b>Click here for step-by-step manual setup instructions</b></summary>
+
+If you prefer manual setup or need more control, follow these detailed steps.
+
+### Step 1: Set Up DOTA Server
 
 The server is the heart of the DOTA ecosystem. Let's get it running first.
 
-### Prerequisites
+#### Prerequisites
 
 - Docker and Docker Compose [installed](https://docs.docker.com/compose/install/)
 - Node.js 18 or higher
 - Git
 
-### Quick Start with Docker
+#### Manual Server Setup
 
-**1.1 Clone the Server Repository**
+**1.1 Clone the Monorepo**
 
 ```bash
-git clone https://github.com/ds-horizon/delivr-server-ota.git
-cd delivr-server-ota
+git clone https://github.com/ds-horizon/delivr.git
+cd delivr/delivr-server-ota
 ```
 
 **1.2 Install Dependencies**
@@ -85,26 +133,24 @@ Expected response: `{"status": "ok", "timestamp": "..."}`
 
 ---
 
-## Step 2: Set Up Web Panel
+#### Step 1.2: Set Up Web Panel (Manual)
 
 The Web Panel provides a visual interface for managing your apps and deployments.
 
-### Prerequisites
+**Prerequisites:**
 
 - Node.js 18.18.0 (exact version)
 - pnpm 10.17.0+
-- DOTA Server running (from [Step 1](#step-1-set-up-dota-server))
+- DOTA Server running (from Step 1.1 above)
 
-### Setup Steps
-
-**2.1 Clone the Web Panel Repository**
+**1.2.1 Navigate to Web Panel**
 
 ```bash
-git clone https://github.com/ds-horizon/delivr-web-panel.git
-cd delivr-web-panel
+# From the repo root, navigate to web panel
+cd ../delivr-web-panel
 ```
 
-**2.2 Enable Corepack and Install pnpm**
+**1.2.2 Enable Corepack and Install pnpm**
 
 ```bash
 npm install -g corepack
@@ -112,13 +158,13 @@ corepack enable
 npm install -g pnpm
 ```
 
-**2.3 Install Dependencies**
+**1.2.3 Install Dependencies**
 
 ```bash
 pnpm install
 ```
 
-**2.4 Configure Environment**
+**1.2.4 Configure Environment**
 
 Create `.env` file:
 
@@ -139,7 +185,7 @@ You'll need to create OAuth credentials in [Google Cloud Console](https://consol
 4. Copy Client ID and Secret to `.env`
 :::
 
-**2.5 Start the Web Panel**
+**1.2.5 Start the Web Panel**
 
 ```bash
 pnpm dev
@@ -147,7 +193,7 @@ pnpm dev
 
 The dashboard will be available at **`http://localhost:5173`**
 
-**2.6 Sign In and Create Your Organization**
+**1.2.6 Sign In and Create Your Organization**
 
 1. Open `http://localhost:5173` in your browser
 2. Click "Sign in with Google"
@@ -160,13 +206,19 @@ The dashboard will be available at **`http://localhost:5173`**
 
 [📖 Detailed Web Panel Setup Guide →](/dota/web-panel/installation)
 
+</details>
+
 ---
 
-## Step 3: Create Your App and Generate Deployment Keys
+## Step 2: Create Your App and Generate Deployment Keys
 
-Now let's create your first app in the dashboard and get deployment keys.
+Whether you used the quick start script or manual setup, your Web Panel should now be running. Let's create your first app and get deployment keys.
 
-**3.1 Create Your App**
+**Access the Dashboard:**
+- If you used the launch script: http://localhost:3000
+- If you set up manually: http://localhost:5173
+
+**2.1 Create Your App**
 
 1. In the Web Panel, click **"Create App"** or **"New Application"**
 2. Enter your app details:
@@ -174,14 +226,14 @@ Now let's create your first app in the dashboard and get deployment keys.
    - **Platform**: iOS or Android
    - **Description**: Optional
 
-**3.2 Generate Deployment Keys**
+**2.2 Generate Deployment Keys**
 
 After creating the app, you'll see two deployment keys generated:
 
 - 🟡 **Staging** - For testing and QA
 - 🟢 **Production** - For live users
 
-**3.3 Copy the Deployment Keys**
+**2.3 Copy the Deployment Keys**
 
 Copy both keys - you'll need them in the next step.
 
@@ -191,7 +243,7 @@ Keep these keys secure! They will be embedded in your mobile app and identify wh
 
 ---
 
-## Step 4: Integrate DOTA SDK into Your React Native App
+## Step 3: Integrate DOTA SDK into Your React Native App
 
 Now let's add DOTA to your React Native application.
 
@@ -512,7 +564,7 @@ Build your app for production and release it to the App Store/Play Store with th
 
 ---
 
-## Step 5: Generate Your JavaScript Bundle
+## Step 4: Generate Your JavaScript Bundle
 
 Before you can send an update, you need to create a JavaScript bundle.
 
@@ -573,7 +625,7 @@ This creates bundles in the `.dota/` directory:
 
 ---
 
-## Step 6: Install and Configure DOTA CLI
+## Step 5: Install and Configure DOTA CLI
 
 The CLI allows you to deploy updates from your terminal or CI/CD pipeline.
 
@@ -628,7 +680,7 @@ yarn code-push-standalone whoami
 
 ---
 
-## Step 7: Deploy Your First OTA Update! 🚀
+## Step 6: Deploy Your First OTA Update! 🚀
 
 Now comes the exciting part - deploying your first update!
 
@@ -714,7 +766,7 @@ Use `"1.0.0"` for exact version or `"^1.0.0"` for all 1.x.x versions
 
 ---
 
-## Step 8: Test Your OTA Update
+## Step 7: Test Your OTA Update
 
 **8.1 Restart Your App**
 
@@ -765,7 +817,7 @@ Checkout the [Patch Bundle Guide](/dota/patch-update-guide) to ship more lightwe
 
 ---
 
-## Step 9: Deploy to Production (When Ready)
+## Step 8: Deploy to Production (When Ready)
 
 After testing in Staging, promote to Production:
 

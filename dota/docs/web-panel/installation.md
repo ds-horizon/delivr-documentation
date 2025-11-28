@@ -26,8 +26,8 @@ Before you begin, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/ds-horizon/delivr-web-panel.git
-cd delivr-web-panel
+git clone https://github.com/ds-horizon/delivr.git
+cd delivr/delivr-web-panel
 ```
 
 ### 2. Enable Corepack

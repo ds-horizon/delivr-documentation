@@ -1,7 +1,6 @@
-import React from 'react';
-import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
+import React from 'react';
 import styles from './dota.module.css';
 
 function SectionCard({icon, title, description, link, features}: {
