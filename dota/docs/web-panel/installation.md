@@ -26,7 +26,7 @@ Before you begin, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/ds-horizon/delivr.git
+git clone https://github.com/dream-horizon-org/delivr.git
 cd delivr/delivr-web-panel
 ```
 

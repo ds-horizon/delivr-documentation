@@ -43,7 +43,7 @@ The fastest way to get DOTA running is using the automated launch script.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/ds-horizon/delivr.git
+git clone https://github.com/dream-horizon-org/delivr.git
 cd delivr
 
 # 2. Run the launch script
@@ -92,7 +92,7 @@ The server is the heart of the DOTA ecosystem. Let's get it running first.
 **1.1 Clone the Monorepo**
 
 ```bash
-git clone https://github.com/ds-horizon/delivr.git
+git clone https://github.com/dream-horizon-org/delivr.git
 cd delivr/delivr-server-ota
 ```
 

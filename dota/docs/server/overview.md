@@ -136,7 +136,7 @@ Support multiple organizations with tenant isolation and RBAC.
 Mix local and cloud resources based on your needs.
 
 ## Resources
-- [Github Repository](https://github.com/ds-horizon/delivr/tree/main/delivr-server-ota)
+- [Github Repository](https://github.com/dream-horizon-org/delivr/tree/main/delivr-server-ota)
 - [SDK Documentation](/dota/sdk/overview)
 - [CLI Documentation](/dota/cli/overview)
 - [Web Panel Documentation](/dota/web-panel/overview)

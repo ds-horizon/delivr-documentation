@@ -56,7 +56,7 @@ export default function DOTA(): React.JSX.Element {
                 </Link>
                 <Link
                   className="button button--secondary button--lg"
-                  to="https://github.com/ds-horizon/delivr">
+                  to="https://github.com/dream-horizon-org/delivr">
                   View on GitHub
                 </Link>
               </div>
@@ -204,7 +204,7 @@ export default function DOTA(): React.JSX.Element {
               </Link>
               <Link
                 className="button button--secondary button--lg"
-                to="https://github.com/ds-horizon/delivr">
+                to="https://github.com/dream-horizon-org/delivr">
                 Explore on GitHub
               </Link>
             </div>

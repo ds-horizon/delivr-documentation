@@ -82,7 +82,7 @@ The web panel is part of a comprehensive ecosystem:
 
 ## Resources
 
-- [GitHub Repository](https://github.com/ds-horizon/delivr/tree/main/delivr-web-panel)
+- [GitHub Repository](https://github.com/dream-horizon-org/delivr/tree/main/delivr-web-panel)
 - [Backend Documentation](/dota/server/overview)
 - [SDK Documentation](/dota/sdk/overview)
 - [CLI Documentation](/dota/cli/overview)
