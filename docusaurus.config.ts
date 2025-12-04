@@ -96,7 +96,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/ds-horizon/delivr-documentation',
+          href: 'https://github.com/ds-horizon/delivr',
           label: 'GitHub',
           position: 'right',
         },
