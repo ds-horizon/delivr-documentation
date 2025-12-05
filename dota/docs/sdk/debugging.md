@@ -36,11 +36,11 @@ codePush.sync(
 );
 ```
 
-See: [API Reference → sync](/sdk/api-reference#sync) for usage and options.
+See: [API Reference → sync](/dota/sdk/api-reference#sync) for usage and options.
 
 ### Understanding Status Codes
 
-For the complete list and meanings, see [API Reference → Enums → SyncStatus](/sdk/api-reference#syncstatus).
+For the complete list and meanings, see [API Reference → Enums → SyncStatus](/dota/sdk/api-reference#syncstatus).
 
 | Status | Meaning | What to Check |
 |--------|---------|---------------|

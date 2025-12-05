@@ -78,7 +78,7 @@ Before making changes, you need to save your current bundle as the "old" version
 
 **1.1 Prepare the current (base) bundle**
 
-If you completed [bundle setup](/dota/full-setup#step-5-generate-your-javascript-bundle) in the [Full Setup Guide](/dota/full-setup), each Release build copies the currently shipped bundle to the `.dota/<platform>` folder. This becomes the base for generating your patch.
+If you completed [bundle setup](/dota/full-setup#step-4-generate-your-javascript-bundle) in the [Full Setup Guide](/dota/full-setup), each Release build copies the currently shipped bundle to the `.dota/<platform>` folder. This becomes the base for generating your patch.
 
 **1.2 Create a Backup Directory**
 
@@ -155,7 +155,7 @@ yarn android --mode=Release
 New bundle will automatically be updated in the respective platform directory `.dota/ios/` (iOS) and `.dota/android/` (Android).
 
 :::tip Smaller Patches
-Enable [Base Bytecode Optimization](/dota/sdk/base-bytecode-optimization) before generating the new bundle to reduce patch size further.
+Enable [Base Bytecode Optimization](/dota/base-bytecode-optimization) before generating the new bundle to reduce patch size further.
 :::
 
 ---

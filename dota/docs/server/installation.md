@@ -47,7 +47,7 @@ Create a `.env` file in the project root:
 cp .env.example .env
 ```
 
-Edit `.env` with your configuration. See [Configuration Guide](/dota/server/configuration) for detailed options.
+Edit `.env` with your configuration.
 
 ### 4. Start with Docker (Recommended)
 
@@ -290,8 +290,7 @@ npm run migrate
 
 ## Next Steps
 
-- [Configure your deployment](/dota/server/configuration)
-- [Learn about deployment strategies](/dota/server/deployment)
-- [Explore the API](/dota/server/api-reference)
 - [Set up the Web Panel](/dota/web-panel/overview)
+- [Integrate the SDK](/dota/sdk/installation)
+- [Install the CLI](/dota/cli/installation)
 

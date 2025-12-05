@@ -73,13 +73,13 @@ codePush.sync(
 
 #### SyncOptions
 
-`sync` accepts the same configuration as [`CodePushOptions`](/dota/sdk/usage), except `checkFrequency` (not applicable to a one‑off call). Use it to override defaults for a specific run:
+`sync` accepts the same configuration as [`CodePushOptions`](/dota/sdk/options), except `checkFrequency` (not applicable to a one‑off call). Use it to override defaults for a specific run:
 
-- `deploymentKey` (string) – see [Deployment Keys](/dota/sdk/usage#deployment-keys).
-- `installMode` (codePush.InstallMode) – see [Install Modes](/dota/sdk/usage#install-modes).
-- `mandatoryInstallMode` (codePush.InstallMode) – see [Mandatory Install Mode](/dota/sdk/usage#mandatory-install-mode).
-- `minimumBackgroundDuration` (number) – see [Install Modes](/dota/sdk/usage#install-modes).
-- `updateDialog` (UpdateDialogOptions) – see [Update Dialog](/dota/sdk/usage#update-dialog).
+- `deploymentKey` (string) – see [Deployment Keys](/dota/sdk/options#deployment-keys).
+- `installMode` (codePush.InstallMode) – see [Install Modes](/dota/sdk/options#install-modes).
+- `mandatoryInstallMode` (codePush.InstallMode) – see [Mandatory Install Mode](/dota/sdk/options#mandatory-install-mode).
+- `minimumBackgroundDuration` (number) – see [Install Modes](/dota/sdk/options#install-modes).
+- `updateDialog` (UpdateDialogOptions) – see [Update Dialog](/dota/sdk/options#update-dialog).
 
 Option examples:
 
@@ -172,7 +172,7 @@ codePush.allowRestart(): void;
 :::info At a glance
 - Purpose: Re‑enable programmatic restarts previously blocked via [`disallowRestart`](#disallowrestart).
 - Effect: Immediately performs a queued restart if one was requested while restarts were disallowed.
-- Pairs with: [`disallowRestart`](#disallowrestart), [`restartApp`](#codepushrestartapp).
+- Pairs with: [`disallowRestart`](#disallowrestart), [`restartApp`](#restartapp).
 :::
 
 Triggers an immediate restart now if, during the disallowed period, any of the below occurred:
@@ -205,7 +205,7 @@ function checkForUpdate(
 - Purpose: Check if the configured deployment has an update available.
 - Default: Uses deployment key from native config; override with the `deploymentKey` param.
 - Returns: `RemotePackage | null`.
-- See also: [Deployment Keys](/dota/sdk/usage#deployment-keys), [Package objects → RemotePackage](#remotepackage).
+- See also: [Deployment Keys](/dota/sdk/options#deployment-keys), [Package objects → RemotePackage](#remotepackage).
 :::
 
 Parameters:
@@ -257,7 +257,7 @@ codePush.disallowRestart(): void;
 :::info At a glance
 - Purpose: Prevent programmatic restarts during critical flows (e.g., onboarding, checkout).
 - Effect: Restarts are queued until `allowRestart()` is called.
-- Pairs with: [`allowRestart`](#codepushallowrestart), [`restartApp`](#codepushrestartapp), [Install Modes](/dota/sdk/usage#install-modes).
+- Pairs with: [`allowRestart`](#allowrestart), [`restartApp`](#restartapp), [Install Modes](/dota/sdk/options#install-modes).
 :::
 
 Blocks restarts triggered by:
@@ -369,7 +369,7 @@ function restartApp(onlyIfUpdateIsPending?: boolean): void;
 :::info At a glance
 - Purpose: Programmatically restart the app.
 - Guard: `onlyIfUpdateIsPending = true` restarts only when an update is pending.
-- Pairs with: [Install Modes](/dota/sdk/usage#install-modes), [`disallowRestart`](#disallowrestart), [`allowRestart`](#allowrestart).
+- Pairs with: [Install Modes](/dota/sdk/options#install-modes), [`disallowRestart`](#disallowrestart), [`allowRestart`](#allowrestart).
 :::
 
 When to use

@@ -26,8 +26,8 @@ DOTA (Delivr Over‑The‑Air) lets your React Native app receive updates withou
 - 🧩 **TypeScript first**: Complete, accurate type definitions
 - 🏗️ **Both RN architectures**: Compatible with the old and the new architecture
 - 📦 **Full or patch bundles**: Ship complete bundles or small diffs — see [Bundle Generation](/dota/sdk/bundle-generation) and [Ship Your First Patch Bundle](/dota/patch-update-guide)
-- 🗜️ **Brotli compression**: Smaller downloads — enable via [CLI release options](/dota/cli/release-management#brotli-compression)
-- 🧠 **Base bytecode–aware patches**: Dramatically reduces patch size — learn more in [Base bytecode optimization](/dota/sdk/base-bytecode-optimization)
+- 🗜️ **Brotli compression**: Smaller downloads — enable via [CLI release options](/dota/cli/release-management#using-brotli-compression)
+- 🧠 **Base bytecode–aware patches**: Dramatically reduces patch size — learn more in [Base bytecode optimization](/dota/base-bytecode-optimization)
 
 ## How does it work?
 

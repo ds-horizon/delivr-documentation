@@ -65,7 +65,7 @@ chmod +x launch_script.sh
 - 📊 **Health Check**: http://localhost:3010/healthcheck
 
 :::tip Success!
-If the script completes successfully, **skip to [Step 2: SDK Integration](#step-2-set-up-sdk-in-react-native-app)** to integrate DOTA into your mobile app.
+If the script completes successfully, **skip to [Step 3: SDK Integration](#step-3-integrate-dota-sdk-into-your-react-native-app)** to integrate DOTA into your mobile app.
 :::
 
 ---
@@ -370,7 +370,7 @@ public class MainApplication extends Application implements ReactApplication {
   </TabItem>
 </Tabs>
 
-5. Add the deployment key (copied at [step 3](#step-3-create-your-app-and-generate-deployment-keys)) and server URL to `strings.xml`:
+5. Add the deployment key (copied at [step 2](#step-2-create-your-app-and-generate-deployment-keys)) and server URL to `strings.xml`:
 
 ```xml
 <resources>
@@ -441,7 +441,7 @@ return [CodePush bundleURL];
 }
 ```
 
-5. Add deployment key (copied at [step 3](#step-3-create-your-app-and-generate-deployment-keys)) and server URL to `Info.plist`:
+5. Add deployment key (copied at [step 2](#step-2-create-your-app-and-generate-deployment-keys)) and server URL to `Info.plist`:
 
 ```xml
 <key>CodePushServerURL</key>
