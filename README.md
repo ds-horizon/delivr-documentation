@@ -159,11 +159,11 @@ Content goes here...
 ## 🔗 Useful Links
 
 - **Live Site**: https://delivr.live
-- **Main Repository**: https://github.com/ds-horizon/delivr
-  - **SDK**: https://github.com/ds-horizon/delivr/tree/main/delivr-sdk-ota
-  - **Server**: https://github.com/ds-horizon/delivr/tree/main/delivr-server-ota
-  - **Web Panel**: https://github.com/ds-horizon/delivr/tree/main/delivr-web-panel
-  - **CLI**: https://github.com/ds-horizon/delivr/tree/main/delivr-cli
+- **Main Repository**: https://github.com/dream-horizon-org/delivr
+  - **SDK**: https://github.com/dream-horizon-org/delivr/tree/main/delivr-sdk-ota
+  - **Server**: https://github.com/dream-horizon-org/delivr/tree/main/delivr-server-ota
+  - **Web Panel**: https://github.com/dream-horizon-org/delivr/tree/main/delivr-web-panel
+  - **CLI**: https://github.com/dream-horizon-org/delivr/tree/main/delivr-cli
 
 ## 📦 Technologies Used
 

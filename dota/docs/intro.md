@@ -40,7 +40,7 @@ A powerful command-line tool for deploying updates from your terminal or CI/CD p
 ### 🚀 Launch Everything (5 minutes)
 
 ```bash
-git clone https://github.com/ds-horizon/delivr.git
+git clone https://github.com/dream-horizon-org/delivr.git
 cd delivr
 chmod +x launch_script.sh
 ./launch_script.sh
@@ -83,4 +83,4 @@ Choose your starting point:
 
 ---
 
-**Need Help?** Check out our troubleshooting guides or reach out via [GitHub Issues](https://github.com/ds-horizon).
+**Need Help?** Check out our troubleshooting guides or reach out via [GitHub Issues](https://github.com/dream-horizon-org).

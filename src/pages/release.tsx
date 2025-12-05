@@ -58,7 +58,7 @@ export default function Release(): React.JSX.Element {
             <a href="/dota/intro" className="button button--secondary button--lg">
               Explore DOTA
             </a>
-            <a href="https://github.com/orgs/ds-horizon/repositories?q=delivr" className="button button--secondary button--lg">
+            <a href="https://github.com/orgs/dream-horizon-org/repositories?q=delivr" className="button button--secondary button--lg">
               View on GitHub
             </a>
           </div>

@@ -22,7 +22,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'ds-horizon', // Usually your GitHub org/user name.
+  organizationName: 'dream-horizon-org', // Usually your GitHub org/user name.
   projectName: 'delivr-documentation', // Usually your repo name.
 
   onBrokenLinks: 'warn',
@@ -46,7 +46,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/ds-horizon/delivr-documentation/tree/main/',
+            'https://github.com/dream-horizon-org/delivr-documentation/tree/main/',
         },
         blog: false,
         theme: {
@@ -156,23 +156,23 @@ const config: Config = {
           items: [
             {
               label: 'Main Repository',
-              href: 'https://github.com/ds-horizon/delivr',
+              href: 'https://github.com/dream-horizon-org/delivr',
             },
             {
               label: 'SDK (React Native)',
-              href: 'https://github.com/ds-horizon/delivr/tree/main/delivr-sdk-ota',
+              href: 'https://github.com/dream-horizon-org/delivr/tree/main/delivr-sdk-ota',
             },
             {
               label: 'Server (Backend)',
-              href: 'https://github.com/ds-horizon/delivr/tree/main/delivr-server-ota',
+              href: 'https://github.com/dream-horizon-org/delivr/tree/main/delivr-server-ota',
             },
             {
               label: 'Web Panel',
-              href: 'https://github.com/ds-horizon/delivr/tree/main/delivr-web-panel',
+              href: 'https://github.com/dream-horizon-org/delivr/tree/main/delivr-web-panel',
             },
             {
               label: 'CLI',
-              href: 'https://github.com/ds-horizon/delivr/tree/main/delivr-cli',
+              href: 'https://github.com/dream-horizon-org/delivr/tree/main/delivr-cli',
             },
           ],
         },
@@ -181,16 +181,16 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Organization',
-              href: 'https://github.com/ds-horizon',
+              href: 'https://github.com/dream-horizon-org',
             },
             {
               label: 'Report an Issue',
-              href: 'https://github.com/ds-horizon/delivr/issues',
+              href: 'https://github.com/dream-horizon-org/delivr/issues',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Horizon`,
+      copyright: `Copyright © ${new Date().getFullYear()} Dream Horizon`,
     },
     prism: {
       theme: prismThemes.github,

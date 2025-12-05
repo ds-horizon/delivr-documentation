@@ -6,7 +6,7 @@ This repository is configured to automatically deploy to GitHub Pages when you p
 
 ### Step 1: Enable GitHub Pages
 
-1. Go to your repository on GitHub: `https://github.com/ds-horizon/delivr-documentation`
+1. Go to your repository on GitHub: `https://github.com/dream-horizon-org/delivr-documentation`
 2. Click **Settings** → **Pages** (in the left sidebar)
 3. Under **Source**, select:
    - Source: **GitHub Actions**
@@ -30,7 +30,7 @@ git push origin main
 1. Go to **Actions** tab in your GitHub repository
 2. You'll see the "Deploy to GitHub Pages" workflow running
 3. Wait for it to complete (usually 2-3 minutes)
-4. Your site will be live at: **`https://ds-horizon.github.io/delivr-documentation/`**
+4. Your site will be live at: **`https://dream-horizon-org.github.io/delivr-documentation/`**
 
 ---
 
@@ -54,18 +54,18 @@ The GitHub Action (`.github/workflows/deploy.yml`) automatically:
 The following settings in `docusaurus.config.ts` are configured for GitHub Pages:
 
 ```typescript
-url: 'https://ds-horizon.github.io',
+url: 'https://dream-horizon-org.github.io',
 baseUrl: '/',  // Root path
-organizationName: 'ds-horizon',
+organizationName: 'dream-horizon-org',
 projectName: 'delivr-documentation',
 ```
 
 :::info Base URL
 The `baseUrl` is set to `/` which works for:
 - Custom domains (e.g., `docs.delivr.com`)
-- Organization/user pages (e.g., `ds-horizon.github.io`)
+- Organization/user pages (e.g., `dream-horizon-org.github.io`)
 
-If deploying to a project page (e.g., `ds-horizon.github.io/delivr-documentation/`), change to:
+If deploying to a project page (e.g., `dream-horizon-org.github.io/delivr-documentation/`), change to:
 ```typescript
 baseUrl: '/delivr-documentation/',
 ```
@@ -87,7 +87,7 @@ echo "docs.yourdomain.com" > static/CNAME
 ```
 
 3. **Configure DNS:**
-   - Add a CNAME record pointing to `ds-horizon.github.io`
+   - Add a CNAME record pointing to `dream-horizon-org.github.io`
 
 4. **Update GitHub Pages settings:**
    - Go to Settings → Pages
@@ -190,7 +190,7 @@ git push origin main
 ## 🎉 Success!
 
 Once deployed, your site will be available at:
-**https://ds-horizon.github.io/delivr-documentation/**
+**https://dream-horizon-org.github.io/delivr-documentation/**
 
 Share this URL with your team and users!
 
